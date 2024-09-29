@@ -1,0 +1,54 @@
+{
+  "private": true,
+  "name": "i18n-framework-template",
+  "version": "0.0.1",
+  "description": "一个国际化的react项目框架",
+  "author": "XueYou",
+  "license": "ISC",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
+    "postinstall": "turbo run stub",
+    "lint": "turbo lint"
+  },
+  "main": "index.js",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
+  "files": [
+    "lib",
+    "package.json",
+    "tsconfig.json",
+    "README.md"
+  ],
+  "keywords": [
+    "React",
+    "I18n",
+    "TurboRepo",
+    "TypeScript",
+    "Web",
+    "H5"
+  ],
+  "lint-staged": {
+    "*.{js,mjs,jsx,ts,tsx}": [
+      "eslint --fix --max-warnings 0 --cache --cache-location node_modules/.eslintCache"
+    ],
+    "*.{scss,css,less,sass}": [
+      "stylelint --fix --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.6.7"
+  },
+  "devDependencies": {
+    "@framework/lint-set": "workspace:^",
+    "env-cmd": "^10.1.0",
+    "turbo": "^2.1.2"
+  }
+}
