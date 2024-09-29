@@ -9,6 +9,7 @@
   "scripts": {
     "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
     "postinstall": "turbo run stub",
+    "prepare": "husky",
     "lint": "turbo lint"
   },
   "main": "index.js",
@@ -30,6 +31,23 @@
     "Web",
     "H5"
   ],
+  "branchlint": {
+    "allowed": [
+      "master",
+      "test",
+      "preonline"
+    ],
+    "disallowed": [],
+    "prefixes": [
+      "feature",
+      "hotfix",
+      "private"
+    ],
+    "separator": [
+      "/"
+    ],
+    "msgBranchDisallowed": "Please make sure your branch splitter is '/' and it starts with feature, hotfix, or private"
+  },
   "lint-staged": {
     "*.{js,mjs,jsx,ts,tsx}": [
       "eslint --fix --max-warnings 0 --cache --cache-location node_modules/.eslintCache"
@@ -47,8 +65,13 @@
     "npm": ">=9.6.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@framework/lint-set": "workspace:^",
+    "branchlint": "^0.0.2",
     "env-cmd": "^10.1.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "turbo": "^2.1.2"
   }
 }
