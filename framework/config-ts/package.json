@@ -1,0 +1,13 @@
+{
+  "name": "@framework/config-ts",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "tsconfig.base.json",
+  "files": [
+    "tsconfig.base.json",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

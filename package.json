@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "i18n-framework-template",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "一个国际化的react项目框架",
   "author": "XueYou",
   "license": "ISC",
@@ -10,7 +10,8 @@
     "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
     "postinstall": "turbo run stub",
     "prepare": "husky",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "dev:i18n-fe-shop-express": "turbo run dev --filter=@app/i18n-fe-shop-express"
   },
   "main": "index.js",
   "sideEffects": [
@@ -24,17 +25,14 @@
     "README.md"
   ],
   "keywords": [
-    "React",
-    "I18n",
     "TurboRepo",
-    "TypeScript",
-    "Web",
-    "H5"
+    "TypeScript"
   ],
   "branchlint": {
     "allowed": [
       "master",
       "test",
+      "next",
       "preonline"
     ],
     "disallowed": [],

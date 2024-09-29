@@ -7,7 +7,7 @@
 ## 路线图(Roadmap)
 
 - [ ] turborepo + pnpm workspace 构建多仓库
-- [ ] eslint + stylelint + prettierrc + commitlint + husky 单独作为一个基础仓库
+- [x] eslint + stylelint + prettierrc + commitlint + husky 单独作为一个基础仓库
 - [ ] 响应式布局, 5 个断点， 字体大小自适应， 深色模式
 - [ ] seo 信息在编译 html 时候注入
 - [ ] 版本控制+tag 管理+gitlab 流水线

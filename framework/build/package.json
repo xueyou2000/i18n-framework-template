@@ -1,0 +1,27 @@
+{
+  "name": "@framework/build",
+  "version": "0.0.1",
+  "main": "rsbuild-base-config.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "files": [
+    "rsbuild-base-config.ts",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@framework/lint-set": "workspace:^",
+    "@framework/config-ts": "workspace:^"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": "^1.0.8",
+    "@rsbuild/plugin-react": "^1.0.3",
+    "@rsbuild/plugin-sass": "^1.0.1",
+    "@rsbuild/plugin-type-check": "^1.0.1"
+  }
+}

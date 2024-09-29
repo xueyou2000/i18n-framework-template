@@ -1,0 +1,60 @@
+{
+  "private": true,
+  "name": "@app/i18n-fe-shop-express",
+  "version": "0.0.1",
+  "description": "React前端国际化项目",
+  "author": "XueYou",
+  "license": "ISC",
+  "packageManager": "pnpm@9.0.0",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
+  "scripts": {
+    "lint:eslint": "eslint .",
+    "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass}",
+    "lint": "npm run lint:eslint && npm run lint:stylelint",
+    "dev": "env-cmd -e dev -r ./envs.js --verbose rsbuild dev --mode development -c ./rsbuild.dev.config.ts"
+  },
+  "files": [
+    "lib",
+    "package.json",
+    "tsconfig.json",
+    "README.md"
+  ],
+  "keywords": [
+    "React",
+    "I18n",
+    "TurboRepo",
+    "TypeScript",
+    "Web",
+    "H5"
+  ],
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.6.7"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": "^1.0.8",
+    "@rsbuild/plugin-react": "^1.0.3",
+    "@rsbuild/plugin-sass": "^1.0.1",
+    "@rsbuild/plugin-type-check": "^1.0.1"
+  },
+  "devDependencies": {
+    "@framework/build": "workspace:^",
+    "@framework/config-ts": "workspace:^",
+    "@framework/lint-set": "workspace:^",
+    "@types/node": "^22.7.4",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-router-config": "^5.0.11",
+    "@types/react-router-dom": "^5.3.3",
+    "env-cmd": "^10.1.0"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^6.26.2"
+  }
+}

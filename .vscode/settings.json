@@ -3,5 +3,8 @@
   "stylelint.validate": ["css", "less", "scss"],
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "always"
+  },
+  "files.exclude": {
+    "**/.turbo": true
   }
 }
