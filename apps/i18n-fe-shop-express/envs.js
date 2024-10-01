@@ -5,7 +5,7 @@
 
 function base() {
   return {
-    TITLE: 'title',
+    TITLE: 'shop-express',
     CLIENT_ENV: '环境变量test'
   }
 }

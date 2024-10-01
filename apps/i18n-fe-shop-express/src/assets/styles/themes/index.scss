@@ -1,0 +1,19 @@
+@use 'light';
+@use 'dark';
+
+:root {
+  @include light;
+}
+
+html[data-theme='dark'] {
+  @include dark;
+}
+
+.btn {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  color: red;
+  color: antiquewhite;
+  background-color: red;
+}

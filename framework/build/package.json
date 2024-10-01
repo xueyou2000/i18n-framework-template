@@ -1,7 +1,8 @@
 {
   "name": "@framework/build",
+  "description": "RsBuild tool for React project",
   "version": "0.0.1",
-  "main": "rsbuild-base-config.ts",
+  "main": "index.ts",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -9,11 +10,9 @@
   },
   "files": [
     "rsbuild-base-config.ts",
+    "index.ts",
     "README.md"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
     "@framework/lint-set": "workspace:^",
     "@framework/config-ts": "workspace:^"
