@@ -10,7 +10,9 @@
     "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
     "postinstall": "turbo run stub",
     "prepare": "husky",
-    "lint": "turbo lint",
+    "lint:eslint": "eslint .",
+    "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass}",
+    "lint": "npm run lint:eslint && npm run lint:stylelint",
     "dev:i18n-fe-shop-express": "turbo run dev --filter=@app/i18n-fe-shop-express"
   },
   "main": "index.js",
@@ -48,7 +50,7 @@
   },
   "lint-staged": {
     "*.{js,mjs,jsx,ts,tsx}": [
-      "eslint --fix --max-warnings 0 --cache --cache-location node_modules/.eslintCache"
+      "eslint --fix --max-warnings 0"
     ],
     "*.{scss,css,less,sass}": [
       "stylelint --fix --max-warnings 0",
@@ -70,6 +72,10 @@
     "env-cmd": "^10.1.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
+    "stylelint": "^16.9.0",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint-prettier": "^5.0.2",
     "turbo": "^2.1.2"
   }
 }
