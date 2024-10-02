@@ -17,7 +17,8 @@
     "dev": "env-cmd -e dev -r ./envs.js rsbuild dev -c ./build/rsbuild.dev.config.ts",
     "build": "env-cmd -e prod -r ./envs.js rsbuild build -c ./build/rsbuild.prod.config.ts",
     "analyze": "env-cmd -e prod -r ./envs.js cross-env RSDOCTOR=1 rsbuild build -c ./build/rsbuild.prod.config.ts",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "ssr": "ts-node ./build/ssr-build.ts"
   },
   "files": [
     "lib",
@@ -49,6 +50,7 @@
     "@framework/config-ts": "workspace:^",
     "@framework/lint-set": "workspace:^",
     "@packages/utils": "workspace:^",
+    "@tsconfig/node16": "^16.1.3",
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
@@ -57,7 +59,9 @@
     "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
     "fast-glob": "^3.3.2",
-    "signale": "^1.4.0"
+    "signale": "^1.4.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
     "react": "^18.3.1",

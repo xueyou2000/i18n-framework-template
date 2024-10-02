@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
-import { renderToString } from 'react-dom/server'
+import { renderToPipeableStream } from 'react-dom/server'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
+import { Writable } from 'node:stream'
 
 import { routes } from '@/routes'
 
@@ -20,9 +21,49 @@ export function renderHTML(props: SSRRenderProps) {
     initialEntries: ['/', url],
     initialIndex: 1
   })
-  return renderToString(
-    <StrictMode>
-      <RouterProvider router={router}></RouterProvider>
-    </StrictMode>
-  )
+
+  let collectedData = ''
+  const writableStream = new Writable({
+    write(chunk, encoding, callback) {
+      collectedData += chunk.toString()
+      callback()
+    }
+  })
+
+  return new Promise<string>((resolve, reject) => {
+    // const html = ''
+    const stream = renderToPipeableStream(
+      <StrictMode>
+        <RouterProvider router={router}></RouterProvider>
+      </StrictMode>,
+      {
+        onAllReady() {
+          // 在这里开始收集数据
+          stream.pipe(writableStream)
+        },
+        // onShellReady() {
+        //   // 使用 pipeline 将 PipeableStream 转换为字符串
+        //   const pipelinePromise = promisify(pipeline)
+
+        //   pipelinePromise(stream as any, (chunk) => {
+        //     html += chunk.toString()
+        //   })
+        //     .then(() => {
+        //       resolve(html)
+        //     })
+        //     .catch((err) => {
+        //       reject(err)
+        //     })
+        // },
+        onShellError(err) {
+          reject(err)
+        }
+      }
+    )
+
+    writableStream.on('finish', () => {
+      resolve(collectedData)
+    })
+    writableStream.on('error', reject)
+  })
 }
