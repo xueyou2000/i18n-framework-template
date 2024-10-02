@@ -2,6 +2,9 @@ import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import baseConfig from './rsbuild.base.config'
 
 const config = defineConfig({
+  dev: {
+    lazyCompilation: true
+  },
   server: {
     port: 8080,
     historyApiFallback: {

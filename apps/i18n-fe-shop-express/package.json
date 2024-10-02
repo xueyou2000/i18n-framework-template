@@ -16,6 +16,7 @@
     "lint": "npm run lint:eslint && npm run lint:stylelint",
     "dev": "env-cmd -e dev -r ./envs.js rsbuild dev -c ./build/rsbuild.dev.config.ts",
     "build": "env-cmd -e prod -r ./envs.js rsbuild build -c ./build/rsbuild.prod.config.ts",
+    "analyze": "env-cmd -e prod -r ./envs.js cross-env RSDOCTOR=1 rsbuild build -c ./build/rsbuild.prod.config.ts",
     "preview": "rsbuild preview"
   },
   "files": [
@@ -40,7 +41,8 @@
     "@rsbuild/core": "^1.0.8",
     "@rsbuild/plugin-react": "^1.0.3",
     "@rsbuild/plugin-sass": "^1.0.1",
-    "@rsbuild/plugin-type-check": "^1.0.1"
+    "@rsbuild/plugin-type-check": "^1.0.1",
+    "@rsdoctor/rspack-plugin": "^0.4.5"
   },
   "devDependencies": {
     "@framework/build": "workspace:^",
@@ -52,6 +54,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/signale": "^1.4.7",
+    "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
     "fast-glob": "^3.3.2",
     "signale": "^1.4.0"

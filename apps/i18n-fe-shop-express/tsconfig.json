@@ -1,7 +1,7 @@
 {
   "extends": "@framework/config-ts/tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES5",
     "lib": ["DOM", "ES2020"],
     "jsx": "react-jsx",
     "noEmit": true,
