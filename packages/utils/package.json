@@ -1,0 +1,13 @@
+{
+  "name": "@packages/utils",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "README.md"
+  ],
+  "devDependencies": {
+    "@framework/lint-set": "workspace:^",
+    "@framework/config-ts": "workspace:^"
+  }
+}

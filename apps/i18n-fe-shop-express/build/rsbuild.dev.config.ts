@@ -4,10 +4,18 @@ import baseConfig from './rsbuild.base.config'
 const config = defineConfig({
   server: {
     port: 8080,
-    // TODO: 国际化不同国家药自定义不同fallback路径
-    htmlFallback: 'index'
+    historyApiFallback: {
+      verbose: true,
+      rewrites: [
+        {
+          from: /^\/[a-z]+(-[a-z]+)?\//,
+          to: (context) => {
+            return `${context.match[0]}/index.html`
+          }
+        }
+      ]
+    }
   }
 })
-// console.log('>>>', process.env)
 
 export default mergeRsbuildConfig(baseConfig, config)

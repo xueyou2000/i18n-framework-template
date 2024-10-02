@@ -1,12 +1,12 @@
-@use 'light';
-@use 'dark';
+@use 'light' as light;
+@use 'dark' as dark;
 
 :root {
-  @include light;
+  @include light.theme-vars;
 }
 
 html[data-theme='dark'] {
-  @include dark;
+  @include dark.theme-vars;
 }
 
 .btn {
@@ -16,4 +16,5 @@ html[data-theme='dark'] {
   color: red;
   color: antiquewhite;
   background-color: red;
+  background-image: url('../../images/navbar-logo-light.png');
 }

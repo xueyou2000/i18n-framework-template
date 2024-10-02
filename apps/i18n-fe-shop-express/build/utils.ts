@@ -1,11 +1,12 @@
 import { getArgv, parseLocals } from '@framework/build'
+import { RsbuildEntryDescription } from '@rsbuild/core'
 import fastGlob from 'fast-glob'
 import { existsSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 import signale from 'signale'
 
 const LOCAL_DIR = join(__dirname, '../src/locals')
-const ENTRIES_FILE_NAME = 'index.ts'
+const ENTRIES_FILE_NAME = 'index.tsx'
 const DEFAULT_HTML = join(__dirname, '../src/locals/index.html')
 
 export interface LocalInfo {
@@ -71,9 +72,12 @@ export function getLocalsInfo() {
  * 获取多语言入口
  */
 export function getEntries(localInfo: Map<string, LocalInfo>) {
-  const result: Record<string, string> = {}
+  const result: Record<string, RsbuildEntryDescription> = {}
   for (const [local, info] of localInfo.entries()) {
-    result[local] = info.entries
+    result[local] = {
+      import: info.entries
+      // filename: `${local}/[name].[contenthash:8].js`
+    }
   }
   return result
 }

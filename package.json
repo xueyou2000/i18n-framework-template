@@ -8,12 +8,14 @@
   "packageManager": "pnpm@9.0.0",
   "scripts": {
     "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
-    "postinstall": "turbo run stub",
+    "postinstall": "turbo stub",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass}",
     "lint": "npm run lint:eslint && npm run lint:stylelint",
     "dev:i18n-fe-shop-express": "turbo run dev --filter=@app/i18n-fe-shop-express",
-    "dev": "turbo run dev"
+    "dev": "turbo dev --log-prefix=none",
+    "build:i18n-fe-shop-express": "turbo build --filter=@app/i18n-fe-shop-express",
+    "build": "turbo build --log-prefix=none"
   },
   "files": [
     "lib",
