@@ -29,7 +29,7 @@ export function getClientEnvDefine() {
   const define: Record<string, string> = {}
   for (const key in process.env) {
     if (key.startsWith('CLIENT_')) {
-      define[`process.env.${key}`] = JSON.stringify(process.env[key])
+      define[`process.env.${key}`] = JSON.stringify(process.env[key] || '')
     }
   }
   return define

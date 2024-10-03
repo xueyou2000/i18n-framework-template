@@ -14,12 +14,6 @@ const config = defineConfig({
       '@': './src'
     }
   },
-  output: {
-    distPath: {
-      js: 'static/js/[runtime]'
-    },
-    legalComments: 'none'
-  },
   // tools: {
   //   rspack: {
   //     output: {

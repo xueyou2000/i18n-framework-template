@@ -1,7 +1,5 @@
 import { renderHTML } from '../src/locals/ssr'
 
-console.log('>>> start')
-
 function registerIgnoreExt() {
   const extensions = ['.css', '.scss', '.less', '.png', '.jpg', '.gif', '.eot']
   for (let i = 0, len = extensions.length; i < len; i++) {

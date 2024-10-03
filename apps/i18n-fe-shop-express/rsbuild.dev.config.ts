@@ -7,6 +7,4 @@ const config = defineConfig({
   }
 })
 
-console.log('>>>', process.env)
-
 export default mergeRsbuildConfig(baseConfig, config)

@@ -10,7 +10,7 @@ function loadable(Component: React.LazyExoticComponent<() => JSX.Element>) {
     </Suspense>
   )
 }
-
+const matchRoutePaths = JSON.parse(process.env.CLIENT_ARR || '') || []
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -28,3 +28,7 @@ export const routes: RouteObject[] = [
     element: loadable(lazy(() => import(/* webpackChunkName: "about" */ '../pages/About')))
   }
 ]
+
+export const optimizeRoutes: RouteObject[] = matchRoutePaths.length
+  ? routes.filter((route) => matchRoutePaths.includes(route.path))
+  : routes

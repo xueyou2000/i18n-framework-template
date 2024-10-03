@@ -15,10 +15,13 @@ module.exports = {
     // 端口
     PORT: process.env.PORT || 3000,
     // 输出路径
-    OUT_DIR: 'dist-dev'
+    OUT_DIR: 'dist-dev',
+    CLIENT_ARR: JSON.stringify(['/home', '/'])
   }),
   prod: Object.assign(base(), {
     // 输出路径
-    OUT_DIR: 'dist-prod'
+    OUT_DIR: 'dist-prod',
+    CLIENT_ARR: JSON.stringify(['/home', '/']),
+    CLIENT_PATH: '/home'
   })
 }

@@ -5,6 +5,10 @@ import baseConfig from './rsbuild.base.config'
 
 const config = defineConfig({
   output: {
+    distPath: {
+      js: 'static/js/[runtime]'
+    },
+    legalComments: 'none',
     // assetPrefix: 'https://cdn.example.com/assets/'
     manifest: true,
     overrideBrowserslist: ['iOS >= 9', 'Android >= 4.4', 'last 2 versions', '> 0.2%', 'not dead']
