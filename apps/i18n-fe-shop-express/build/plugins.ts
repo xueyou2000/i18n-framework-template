@@ -1,9 +1,15 @@
+import { execSync } from 'node:child_process'
+import { resolve } from 'path'
 import { RsbuildPlugin } from '@rsbuild/core'
 
 export function i18nOutputPlugin(): RsbuildPlugin {
   return {
     name: 'i18nOutputPlugin',
     setup(api) {
+      api.onBeforeBuild(() => {
+        const scriptPath = resolve(__dirname, './generate-routes.js')
+        execSync(`node ${scriptPath}`, { env: { ...process.env } })
+      })
       api.modifyRsbuildConfig(() => {
         // options.output
         // if (!options.output) {
