@@ -1,6 +1,6 @@
-import '@/assets/styles/themes/index.scss'
-import { setupApp } from '../index'
+// import '@/assets/styles/themes/index.scss'
+import { setupClientApp } from '@/render/ClientRender'
 
-console.log('>>> local zh-cn')
+import { nationConfig } from './nation.config'
 
-setupApp()
+setupClientApp(nationConfig)

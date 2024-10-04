@@ -42,16 +42,116 @@ pnpm install
 pnpm dev:i18n-fe-shop-express
 
 # 启动指定国家(在项目根目录运行需要多加一层 --)
-pnpm dev:i18n-fe-shop-express -- -- --locals=in,kh,kh-en
+pnpm dev:i18n-fe-shop-express -- -- --locals=in,zh-cn
 
 # 在本目录启动
-pnpm dev -- --locals=in,kh,kh-en
+pnpm dev -- --locals=in,zh-cn
 ```
 
-3. 构建生产环境代码
+3. 构建生产环境代码(单页应用)
 
 ```shell
 pnpm run build
 ```
 
+4. 本地预览构建
+
+此时会默认打开3000端口, 注意由于没有historyApiFallback功能，所以只能从浏览器打开chunk入口。
+比如打开 http://localhost:3000/in
+
+```shell
+pnpm preview
+```
+
+5. 本地预览ssr
+
+这是一种在开发模式就能预览ssr效果的方式，运行后，你可以右键查看网页源码，可以看到ssr编译后的html内容。
+并且这种方式是还支持开发时的热更新
+
+```shell
+pnpm preview-ssr
+```
+
+6. 本地ssr渲染
+
+对`build-all`将构建出来的产物进行服务端渲染
+
+```shell
+# 构建web和用于服务端渲染的内容
+pnpm build-all
+
+# 启动构建服务器, 此时访问 http://localhost:3000/in/home 就会服务端渲染此路由的内容
+# 后续可修改express, 增加一个controller，实现post传参渲染，并返回html渲染的内容
+pnpm build-ssr-server
+```
+
 ## 注意事项
+
+## todo
+
+- react-i18next
+- react-router-hash-link 解决react路由带哈希不会自动滚动对应位置
+- react-helmet
+- heimdallr-sdk 轻量化的前端监控sdk
+- workbox-core 谷歌提供的Service Worker库，构建PWA应用
+- 现代化响应式网页开发
+- 国际化与书写方向
+
+### 服务端渲染
+
+```javascript
+import { createRequire } from 'node:module'
+
+// import.meta.url是当前es模块的irl, 这里创建一个Commonjs兼容的require函数, 用来加载其他cjs模块，就像传统nodejs那样
+const require = createRequire(import.meta.url)
+
+const serverRender = (_req, res) => {
+  // 这里的 server/index.js 是入口为 ReactDOMServer.renderToString(<app />)编译后的代码
+  const remotesPath = path.join(process.cwd(), `./dist/server/index.js`)
+
+  const importedApp = require(remotesPath)
+
+  const markup = importedApp.render()
+
+  const template = fs.readFileSync(`${process.cwd()}/dist/index.html`, 'utf-8')
+
+  const html = template.replace(`<!--app-content-->`, markup)
+
+  res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
+}
+```
+
+```js
+export default defineConfig({
+  plugins: [pluginReact()],
+  environments: {
+    web: {
+      output: {
+        target: 'web'
+      },
+      source: {
+        entry: {
+          index: './src/index'
+        }
+      }
+    },
+    // 编译ssr入口
+    ssr: {
+      output: {
+        target: 'node',
+        distPath: {
+          root: 'dist/server'
+        }
+      },
+      source: {
+        entry: {
+          index: './src/index.server'
+        }
+      }
+    }
+  },
+  html: {
+    template: './template.html'
+  }
+})
+```

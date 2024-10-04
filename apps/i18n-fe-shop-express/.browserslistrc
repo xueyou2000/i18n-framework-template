@@ -1,10 +1,15 @@
 [production]
-chrome >= 87
+chrome >= 49
 edge >= 88
-firefox >= 78
-safari >= 14
+firefox >= 45
+safari >= 10
+ie >= 10
 
 [development]
-last 1 chrome version
-last 1 firefox version
-last 1 safari version
+last 2 chrome version
+last 2 firefox version
+last 2 safari version
+# 不支持死掉的浏览器（市场份额极低）
+not dead
+# 不支持 IE 9 及以下版本
+not ie <= 9

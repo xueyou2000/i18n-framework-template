@@ -1,12 +1,6 @@
-import '@/assets/styles/themes/index.scss'
-import { setupApp } from '../index'
+// import '@/assets/styles/themes/index.scss'
+import { setupClientApp } from '@/render/ClientRender'
 
-console.log('>>> local in')
+import { nationConfig } from './nation.config'
 
-console.log('>>>', import.meta.env.MODE)
-
-console.log('>>>', process.env.NODE_ENV)
-
-console.log('>>>', process.env.CLIENT_ENV)
-
-setupApp()
+setupClientApp(nationConfig)

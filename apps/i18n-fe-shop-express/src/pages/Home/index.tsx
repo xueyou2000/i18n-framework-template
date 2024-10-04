@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import './index.scss'
 
-export default function Home() {
+export function Home() {
   return (
     <div className="home-page">
       <h1>Home</h1>
@@ -28,4 +28,12 @@ export default function Home() {
       </menu>
     </div>
   )
+}
+
+export const Component = Home
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function loader({ request }: any) {
+  console.log('>>> home loader', request)
+  return { name: 'test home' }
 }

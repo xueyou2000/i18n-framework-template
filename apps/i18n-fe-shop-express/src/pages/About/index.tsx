@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom'
 
 import './index.scss'
 
-export default function About() {
+export function About() {
+  function handleClick() {
+    console.log('>>> click')
+  }
+
   return (
     <div className="about-page">
       <h1>About</h1>
@@ -12,6 +16,8 @@ export default function About() {
       <p>about page</p>
       <p>about page</p>
       <p>about page</p>
+
+      <button onClick={handleClick}>Click Me</button>
 
       <menu>
         <ul>
@@ -28,4 +34,12 @@ export default function About() {
       </menu>
     </div>
   )
+}
+
+export const Component = About
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function loader({ request }: any) {
+  console.log('>>> About loader', request)
+  return { name: 'About test' }
 }

@@ -24,10 +24,12 @@
     "resolveJsonModule": true,
     "useDefineForClassFields": true,
     "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "./global.d.ts"]
+  "include": ["src", "./global.d.ts"],
+  "exclude": ["**/node_modules", "**/.*/"]
 }

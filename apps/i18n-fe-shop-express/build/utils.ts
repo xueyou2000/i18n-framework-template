@@ -8,6 +8,7 @@ import signale from 'signale'
 const LOCAL_DIR = join(__dirname, '../src/locals')
 const ENTRIES_FILE_NAME = 'index.tsx'
 const DEFAULT_HTML = join(__dirname, '../src/locals/index.html')
+export const SSR_RENDER_FILE = join(__dirname, '../src/render/SSRRender.tsx')
 
 export interface LocalInfo {
   local: string

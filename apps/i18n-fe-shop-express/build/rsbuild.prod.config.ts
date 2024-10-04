@@ -4,30 +4,39 @@ import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin'
 import baseConfig from './rsbuild.base.config'
 
 const config = defineConfig({
-  output: {
-    distPath: {
-      js: 'static/js/[runtime]'
-    },
-    legalComments: 'none',
-    // assetPrefix: 'https://cdn.example.com/assets/'
-    manifest: true,
-    overrideBrowserslist: ['iOS >= 9', 'Android >= 4.4', 'last 2 versions', '> 0.2%', 'not dead']
-    // externals: {
-    //   react: 'React',
-    //   'react-dom': 'ReactDOM'
-    // }
-  },
-  tools: {
-    rspack(_, { appendPlugins }) {
-      if (process.env.RSDOCTOR) {
-        appendPlugins(
-          new RsdoctorRspackPlugin({
-            // 插件选项
-          })
-        )
+  environments: {
+    web: {
+      source: {
+        // react-router路由相关包现在都是es6语法，为了兼容性休要转换
+        include: [/[\\/]node_modules[\\/](react-router|react-router-dom|@remix-run[\\/]router)/]
+      },
+      output: {
+        distPath: {
+          js: 'static/js/[runtime]'
+        },
+        // polyfill: 'usage',
+        legalComments: 'none',
+        // assetPrefix: 'https://cdn.example.com/assets/'
+        manifest: true
+        // externals: {
+        //   react: 'React',
+        //   'react-dom': 'ReactDOM'
+        // }
+      },
+      tools: {
+        rspack(_, { appendPlugins }) {
+          if (process.env.RSDOCTOR) {
+            appendPlugins(
+              new RsdoctorRspackPlugin({
+                // 插件选项
+              })
+            )
+          }
+        }
       }
     }
   }
+
   // html: {
   //   tags: [
   //     {

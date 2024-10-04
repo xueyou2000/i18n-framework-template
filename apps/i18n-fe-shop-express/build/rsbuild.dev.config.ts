@@ -6,7 +6,7 @@ const config = defineConfig({
     lazyCompilation: true
   },
   server: {
-    port: 8080,
+    port: process.env.PORT ? Number(process.env.PORT) : 8080,
     historyApiFallback: {
       verbose: true,
       rewrites: [
