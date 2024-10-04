@@ -64,7 +64,9 @@
     "extends": "./eslint.config.mjs"
   },
   "stylelint": {
-    "extends": "./stylelint.config.mjs"
+    "extends": "./stylelint.config.mjs",
+    "ignorePath": "./.stylelintignore",
+    "ignoreFiles": "/..stylelintignore"
   },
   "engines": {
     "node": ">=18.17.0",

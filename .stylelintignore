@@ -1,4 +1,16 @@
-/dist/*
-/public/*
-public/*
-.turbo/*
+# Local
+.DS_Store
+*.local
+*.log*
+.turbo
+
+# Dist
+node_modules
+dist/
+public/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea

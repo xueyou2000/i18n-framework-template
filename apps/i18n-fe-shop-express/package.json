@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "lint:eslint": "eslint .",
-    "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass}",
+    "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass} --ignore-path ../../.stylelintignore",
     "lint": "npm run lint:eslint && npm run lint:stylelint",
     "dev": "env-cmd -e dev -r ./envs.js rsbuild dev -c ./build/rsbuild.dev.config.ts --environment web",
     "build": "env-cmd -e prod -r ./envs.js rsbuild build -c ./build/rsbuild.prod.config.ts --environment web",
