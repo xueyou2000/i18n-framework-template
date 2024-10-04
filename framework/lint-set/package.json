@@ -7,10 +7,14 @@
     "require": "./index.cjs",
     "import": "./index.mjs"
   },
+  "files": [
+    "eslint.config.mjs",
+    "index.cjs",
+    "index.mjs",
+    "stylelint.config.mjs",
+    "README.md"
+  ],
   "license": "MIT",
-  "dependencies": {
-    "eslint-config-prettier": "^9.1.0"
-  },
   "scripts": {
     "lint": "eslint ."
   },

@@ -36,5 +36,5 @@ export default defineFlatConfig([
       'prettier/prettier': 'error' // 将 Prettier 规则作为错误处理
     }
   },
-  { ignores: ['dist/'] }
+  { ignores: ['dist/', '**/dist/', 'node_modules', '**/node_modules/'] }
 ])

@@ -1,0 +1,20 @@
+@use 'light' as light;
+@use 'dark' as dark;
+
+:root {
+  @include light.theme-vars;
+}
+
+html[data-theme='dark'] {
+  @include dark.theme-vars;
+}
+
+.btn {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  color: red;
+  color: antiquewhite;
+  background-color: red;
+  background-image: url('../../images/navbar-logo-light.png');
+}

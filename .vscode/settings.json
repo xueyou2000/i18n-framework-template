@@ -1,7 +1,14 @@
 {
   "stylelint.enable": true,
   "stylelint.validate": ["css", "less", "scss"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "json"],
+  "eslint.enable": true,
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": "always"
+    "source.fixAll.stylelint": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "files.exclude": {
+    "**/.turbo": true
   }
 }
