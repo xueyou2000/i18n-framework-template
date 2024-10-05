@@ -1,13 +1,30 @@
-import { Link, useLoaderData } from 'react-router-dom'
+import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
 
 import './index.scss'
 
+interface LoaderData {
+  date: string
+  url: string
+}
+
+/**
+ * 路由预加载数据
+ */
+export const loader = async (args: LoaderFunctionArgs): Promise<LoaderData> => {
+  await new Promise((r) => setTimeout(r, 500))
+  return {
+    date: new Date().toISOString(),
+    url: args.request?.url
+  }
+}
+
 export default function Index() {
-  const data = useLoaderData()
-  console.log('>>> Index useLoaderData', data)
+  const data = useLoaderData() as LoaderData
+
   return (
     <div className="index-page">
-      <h1>Index</h1>
+      <h1>Index {data?.date}</h1>
+      <p>预加载数据 {data?.url}</p>
       <p>Index page</p>
       <p>Index page</p>
       <p>Index page</p>
@@ -32,10 +49,4 @@ export default function Index() {
   )
 }
 
-export const Component = Index
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function loader({ request }: any) {
-  console.log('>>> Index loader', request)
-  return { name: 'test Index' }
-}
+export const element = <Index />

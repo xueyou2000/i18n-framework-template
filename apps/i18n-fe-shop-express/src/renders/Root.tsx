@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, StrictMode } from 'react'
 import { Helmet } from 'react-helmet'
 
 interface RootProps {
@@ -13,7 +13,7 @@ export function Root(props: PropsWithChildren<RootProps>) {
       <Helmet>
         <html lang={lang} data-lang={lang} />
       </Helmet>
-      {children}
+      <StrictMode>{children}</StrictMode>
     </>
   )
 }

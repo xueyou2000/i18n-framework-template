@@ -6,6 +6,41 @@ import { createRsbuild, loadConfig } from '@rsbuild/core'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+function createFetchRequest(req) {
+  let origin = `${req.protocol}://${req.get('host')}`
+  // Note: This had to take originalUrl into account for presumably vite's proxying
+  let url = new URL(req.originalUrl || req.url, origin)
+
+  let controller = new AbortController()
+  req.on('close', () => controller.abort())
+
+  let headers = new Headers()
+
+  for (let [key, values] of Object.entries(req.headers)) {
+    if (values) {
+      if (Array.isArray(values)) {
+        for (let value of values) {
+          headers.append(key, value)
+        }
+      } else {
+        headers.set(key, values)
+      }
+    }
+  }
+
+  let init = {
+    method: req.method,
+    headers,
+    signal: controller.signal
+  }
+
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    init.body = req.body
+  }
+
+  return new Request(url.href, init)
+}
+
 export const getCurrentLanguage = (pathname) => {
   const language = pathname.split('/')[1]
   return language
@@ -14,13 +49,15 @@ export const getCurrentLanguage = (pathname) => {
 const serverRender = (serverAPI) => async (_req, res, next) => {
   const indexModule = await serverAPI.environments.ssr.loadBundle('index')
 
+  const fetchRequest = createFetchRequest(_req)
+
   const lang = getCurrentLanguage(_req.url)
   const props = { url: _req.url, lang }
   const isMatch = await indexModule.isMatchRoute(props)
   if (isMatch) {
-    const markup = await indexModule.renderHTML(props)
+    // const markup = await indexModule.renderHTMLByMemoryRouter(props)
+    const markup = await indexModule.renderHTMLByRequest({ ...props, fetchRequest })
     const template = await serverAPI.environments.web.getTransformedHtml(lang)
-
     const html = template.replace('<!--app-content-->', markup)
     res.writeHead(200, {
       'Content-Type': 'text/html'

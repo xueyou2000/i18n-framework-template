@@ -1,15 +1,42 @@
-import { Link } from 'react-router-dom'
+import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
+import { log } from '@packages/utils'
 
 import './index.scss'
 
-export function About() {
+interface LoaderData {
+  date: string
+  url: string
+  aboutId?: string
+}
+
+interface AboutRouteParams {
+  id: string
+}
+
+/**
+ * 路由预加载数据
+ */
+export const loader = async (args: LoaderFunctionArgs<AboutRouteParams>): Promise<LoaderData> => {
+  await new Promise((r) => setTimeout(r, 500))
+  return {
+    date: new Date().toISOString(),
+    url: args.request?.url,
+    aboutId: args.params?.id
+  }
+}
+
+export default function About() {
+  const data = useLoaderData() as LoaderData
+
   function handleClick() {
-    console.log('>>> click')
+    log.info('>>> click')
   }
 
   return (
     <div className="about-page">
-      <h1>About</h1>
+      <h1>About {data?.date}</h1>
+      <p>{data?.aboutId}</p>
+      <p>预加载数据 {data?.url}</p>
       <p>about page</p>
       <p>about page</p>
       <p>about page</p>
@@ -36,10 +63,4 @@ export function About() {
   )
 }
 
-export const Component = About
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function loader({ request }: any) {
-  console.log('>>> About loader', request)
-  return { name: 'About test' }
-}
+export const element = <About />
