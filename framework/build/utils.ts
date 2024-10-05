@@ -1,10 +1,11 @@
 /**
  * 获取命令行参数值
  * @param option 例如: --locals=in,jp   获取值不包含key
+ * @param prefix 前缀，默认空，一般是 - 或 --
  */
-export function getArgv(option: string) {
+export function getArgv(option: string, prefix = '') {
   const args = process.argv.slice(2)
-  const prefix = option.startsWith('-') ? '' : '--'
+  // const prefix = option.startsWith('-') ? '' : '--'
   return args
     .find((arg) => arg.startsWith(`${prefix}${option}=`))
     ?.replace(`${prefix}${option}=`, '')

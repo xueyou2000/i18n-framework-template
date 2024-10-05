@@ -1,85 +1,19 @@
-/* eslint-disable no-undef */
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { createRequire } from 'node:module'
-import { readFile } from 'node:fs/promises'
+/*eslint-env node*/
+/*global process:false*/
 import express from 'express'
+import { join } from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { __dirname, require, serverRenderExpress, getCurrentLanguage } from './ssr-base.mjs'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-const require = createRequire(import.meta.url)
+const serverRender = async (req, res, next) => {
+  const lang = getCurrentLanguage(req.url)
+  const moduleUrl = join(__dirname, '../dist/server/index.js')
+  const SSRRenderModule = require(moduleUrl)
 
-const getCurrentLanguage = (pathname) => {
-  const language = pathname.split('/')[1]
-  return language
-}
-
-function createFetchRequest(req) {
-  let origin = `${req.protocol}://${req.get('host')}`
-  // Note: This had to take originalUrl into account for presumably vite's proxying
-  let url = new URL(req.originalUrl || req.url, origin)
-
-  let controller = new AbortController()
-  req.on('close', () => controller.abort())
-
-  let headers = new Headers()
-
-  for (let [key, values] of Object.entries(req.headers)) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (let value of values) {
-          headers.append(key, value)
-        }
-      } else {
-        headers.set(key, values)
-      }
-    }
-  }
-
-  let init = {
-    method: req.method,
-    headers,
-    signal: controller.signal
-  }
-
-  if (req.method !== 'GET' && req.method !== 'HEAD') {
-    init.body = req.body
-  }
-
-  return new Request(url.href, init)
-}
-
-const serverRender = async (_req, res, next) => {
-  const remotesPath = join(__dirname, '../dist/server/index.js')
-
-  const helmetContext = {}
-  const fetchRequest = createFetchRequest(_req)
-
-  const lang = getCurrentLanguage(_req.url)
-  const props = { url: _req.url, lang, helmetContext }
-
-  const importedApp = require(remotesPath)
-
-  const isMatch = await importedApp.isMatchRoute(props)
-
-  if (isMatch) {
-    // const markup = await importedApp.renderHTMLByMemoryRouter(props)
-    const markup = await importedApp.renderHTMLByRequest({ ...props, fetchRequest })
+  serverRenderExpress(req, res, next, SSRRenderModule, async () => {
     const template = await readFile(join(__dirname, `../dist/${lang}/index.html`), 'utf-8')
-    const helmet = helmetContext.helmet
-    const html = template
-      .replace('<!--app-content-->', markup)
-      .replace('<!--helmet.title-->', helmet?.title?.toString() || '')
-      .replace('<!--helmet.priority-->', helmet?.priority?.toString() || '')
-      .replace('<!--helmet.meta-->', helmet?.meta?.toString() || '')
-      .replace('<!--helmet.link-->', helmet?.link?.toString() || '')
-      .replace('<!--helmet.script-->', helmet?.script?.toString() || '')
-      .replace('data-helmet-html-attributes', helmet?.htmlAttributes?.toString() || '')
-
-    res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
-  } else {
-    next()
-  }
+    return template
+  })
 }
 
 const port = process.env.PORT || 3000

@@ -1,37 +1,22 @@
 import { Writable } from 'node:stream'
-import { renderToString, renderToPipeableStream } from 'react-dom/server'
-import { createMemoryRouter, matchRoutes, RouterProvider } from 'react-router-dom'
+import { renderToPipeableStream, renderToString } from 'react-dom/server'
+import { HelmetServerState } from 'react-helmet-async'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import {
   createStaticHandler,
   createStaticRouter,
-  StaticRouterProvider,
-  StaticHandlerContext
+  StaticHandlerContext,
+  StaticRouterProvider
 } from 'react-router-dom/server'
 
-import { NationConfig } from '@/types'
+import { NationConfig, RouteCommonProps } from '@/types'
+import { isMatchRoute } from '@/utils'
+
 import { Root } from './Root'
-import { HelmetServerState } from 'react-helmet-async'
 
-export interface SSRRenderProps {
-  /** 渲染路径，匹配路由，比如 /home */
-  url: string
-  /** 渲染国家-语言 */
-  lang: string
-  /** seo meta等信息 */
+export interface SSRRenderProps extends RouteCommonProps {
+  /** seo context, 用于后续替换seo占位符输出最终html内容 */
   helmetContext?: { helmet?: HelmetServerState }
-}
-
-export async function isMatchRoute(props: SSRRenderProps) {
-  const { url, lang } = props
-  try {
-    const moduleConfig = await import(`../locals/${lang}/nation.config`)
-    const nationConfig = moduleConfig.nationConfig as NationConfig
-    const matchRouteList = matchRoutes(nationConfig.routes, url, `/${lang}`)
-
-    return !!matchRouteList?.length
-  } catch {
-    return false
-  }
 }
 
 /**
@@ -87,6 +72,9 @@ export async function renderHTMLByMemoryRouter(props: SSRRenderProps) {
   }
 }
 
+/**
+ * 流式渲染内容, 传统的renderToString方法不能正常处理Suspense, lazy组件
+ */
 export function renderHtmlPromise(children: React.ReactNode) {
   return new Promise<string>((resolve, reject) => {
     let htmlChunkData = ''
@@ -110,3 +98,5 @@ export function renderHtmlPromise(children: React.ReactNode) {
     writableStream.on('error', reject)
   })
 }
+
+export { isMatchRoute }

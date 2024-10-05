@@ -55,6 +55,8 @@ export function getLocalsInfo() {
     locals = getAllLocals()
   }
 
+  signale.info(`编译国家: ${locals.join(', ')}`)
+
   locals.forEach((local) => {
     local = local.toLowerCase()
     const localHtml = join(LOCAL_DIR, `/${local}/index.html`)

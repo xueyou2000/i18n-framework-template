@@ -7,7 +7,7 @@ const config = defineConfig({
   environments: {
     web: {
       source: {
-        // react-router路由相关包现在都是es6语法，为了兼容性休要转换
+        // react-router路由相关包现在都是es6语法，为了兼容性需要转换
         include: [/[\\/]node_modules[\\/](react-router|react-router-dom|@remix-run[\\/]router)/]
       },
       output: {
