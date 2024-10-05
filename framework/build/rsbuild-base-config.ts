@@ -34,5 +34,9 @@ export default defineConfig({
   environments: {
     // 为每个环境定义不同的 Rsbuild 配置
   },
-  plugins: [pluginTypeCheck({ enable: !!process.env.TYPE_CHECK }), pluginReact(), pluginSass()]
+  plugins: [
+    pluginTypeCheck({ enable: process.env.TYPE_CHECK === 'true' }),
+    pluginReact(),
+    pluginSass()
+  ]
 })

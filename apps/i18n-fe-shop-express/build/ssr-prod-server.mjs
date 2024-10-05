@@ -7,7 +7,6 @@ import express from 'express'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
 const require = createRequire(import.meta.url)
 
 const getCurrentLanguage = (pathname) => {
@@ -15,8 +14,45 @@ const getCurrentLanguage = (pathname) => {
   return language
 }
 
+function createFetchRequest(req) {
+  let origin = `${req.protocol}://${req.get('host')}`
+  // Note: This had to take originalUrl into account for presumably vite's proxying
+  let url = new URL(req.originalUrl || req.url, origin)
+
+  let controller = new AbortController()
+  req.on('close', () => controller.abort())
+
+  let headers = new Headers()
+
+  for (let [key, values] of Object.entries(req.headers)) {
+    if (values) {
+      if (Array.isArray(values)) {
+        for (let value of values) {
+          headers.append(key, value)
+        }
+      } else {
+        headers.set(key, values)
+      }
+    }
+  }
+
+  let init = {
+    method: req.method,
+    headers,
+    signal: controller.signal
+  }
+
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    init.body = req.body
+  }
+
+  return new Request(url.href, init)
+}
+
 const serverRender = async (_req, res, next) => {
   const remotesPath = join(__dirname, '../dist/server/index.js')
+
+  const fetchRequest = createFetchRequest(_req)
 
   const lang = getCurrentLanguage(_req.url)
   const props = { url: _req.url, lang }
@@ -26,7 +62,8 @@ const serverRender = async (_req, res, next) => {
   const isMatch = await importedApp.isMatchRoute(props)
 
   if (isMatch) {
-    const markup = await importedApp.renderHTML(props)
+    // const markup = await importedApp.renderHTMLByMemoryRouter(props)
+    const markup = await importedApp.renderHTMLByRequest({ ...props, fetchRequest })
     const template = await readFile(join(__dirname, `../dist/${lang}/index.html`), 'utf-8')
     const html = template.replace('<!--app-content-->', markup)
 

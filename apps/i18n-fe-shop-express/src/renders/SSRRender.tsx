@@ -1,9 +1,14 @@
 import { Writable } from 'node:stream'
-// import { renderToString } from 'react-dom/server'
+import { renderToString, renderToPipeableStream } from 'react-dom/server'
 import { createMemoryRouter, matchRoutes, RouterProvider } from 'react-router-dom'
+import {
+  createStaticHandler,
+  createStaticRouter,
+  StaticRouterProvider,
+  StaticHandlerContext
+} from 'react-router-dom/server'
 
 import { NationConfig } from '@/types'
-import { renderToPipeableStream } from 'react-dom/server'
 import { Root } from './Root'
 
 export interface SSRRenderProps {
@@ -26,7 +31,36 @@ export async function isMatchRoute(props: SSRRenderProps) {
   }
 }
 
-export async function renderHTML(props: SSRRenderProps) {
+/**
+ * 官方推荐的ssr渲染方式
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest: any }) {
+  const { lang, fetchRequest } = props
+
+  try {
+    const moduleConfig = await import(`../locals/${lang}/nation.config`)
+    const nationConfig = moduleConfig.nationConfig as NationConfig
+
+    const handler = createStaticHandler(nationConfig.routes, { basename: `/${lang}` })
+    const context = (await handler.query(fetchRequest)) as StaticHandlerContext
+    const router = createStaticRouter(handler.dataRoutes, context)
+
+    return renderToString(
+      <Root lang={lang}>
+        <StaticRouterProvider router={router} context={context}></StaticRouterProvider>
+      </Root>
+    )
+  } catch (error) {
+    console.error('服务端渲染失败', error)
+    return ''
+  }
+}
+
+/**
+ * MemoryRouter方式ssr渲染
+ */
+export async function renderHTMLByMemoryRouter(props: SSRRenderProps) {
   const { url, lang } = props
 
   try {
@@ -39,22 +73,11 @@ export async function renderHTML(props: SSRRenderProps) {
       initialIndex: 1
     })
 
-    // 使用renderToPipeableStream渲染，配合数据路由会有 Warning: useLayoutEffect does nothing on the server 警告，暂时不清楚如何解决
-    // 使用 RouterProvider, Link 组件都会有这种警告
     return await renderHtmlPromise(
       <Root lang={lang}>
         <RouterProvider router={router}></RouterProvider>
       </Root>
     )
-
-    // tips: 由于使用了react-router-dom 的数据路由配置，使用了loader, lazy等特性，所以不能用普通的renderToString
-    // return renderToString(
-    //   <Root lang={lang}>
-    //     <StaticRouter location={url} basename={`/${lang}`}>
-    //       {renderMatches(matchRouteList)}
-    //     </StaticRouter>
-    //   </Root>
-    // )
   } catch (error) {
     console.error('服务端渲染失败', error)
     return ''

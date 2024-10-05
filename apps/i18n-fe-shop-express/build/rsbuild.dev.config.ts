@@ -8,7 +8,7 @@ const config = defineConfig({
   server: {
     port: process.env.PORT ? Number(process.env.PORT) : 8080,
     historyApiFallback: {
-      verbose: true,
+      verbose: false,
       rewrites: [
         {
           from: /^\/[a-z]+(-[a-z]+)?\//,

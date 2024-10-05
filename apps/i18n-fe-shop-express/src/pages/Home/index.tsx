@@ -1,11 +1,30 @@
-import { Link } from 'react-router-dom'
+import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
 
 import './index.scss'
 
-export function Home() {
+interface LoaderData {
+  date: string
+  url: string
+}
+
+/**
+ * 路由预加载数据
+ */
+export const loader = async (args: LoaderFunctionArgs): Promise<LoaderData> => {
+  await new Promise((r) => setTimeout(r, 500))
+  return {
+    date: new Date().toISOString(),
+    url: args.request?.url
+  }
+}
+
+export default function Home() {
+  const data = useLoaderData() as LoaderData
+
   return (
     <div className="home-page">
-      <h1>Home</h1>
+      <h1>Home {data?.date}</h1>
+      <p>预加载数据 {data?.url}</p>
       <p>Home page</p>
       <p>Home page</p>
       <p>Home page</p>
@@ -30,10 +49,4 @@ export function Home() {
   )
 }
 
-export const Component = Home
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function loader({ request }: any) {
-  console.log('>>> home loader', request)
-  return { name: 'test home' }
-}
+export const element = <Home />
