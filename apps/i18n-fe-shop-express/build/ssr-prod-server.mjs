@@ -52,10 +52,11 @@ function createFetchRequest(req) {
 const serverRender = async (_req, res, next) => {
   const remotesPath = join(__dirname, '../dist/server/index.js')
 
+  const helmetContext = {}
   const fetchRequest = createFetchRequest(_req)
 
   const lang = getCurrentLanguage(_req.url)
-  const props = { url: _req.url, lang }
+  const props = { url: _req.url, lang, helmetContext }
 
   const importedApp = require(remotesPath)
 
@@ -65,7 +66,15 @@ const serverRender = async (_req, res, next) => {
     // const markup = await importedApp.renderHTMLByMemoryRouter(props)
     const markup = await importedApp.renderHTMLByRequest({ ...props, fetchRequest })
     const template = await readFile(join(__dirname, `../dist/${lang}/index.html`), 'utf-8')
-    const html = template.replace('<!--app-content-->', markup)
+    const helmet = helmetContext.helmet
+    const html = template
+      .replace('<!--app-content-->', markup)
+      .replace('<!--helmet.title-->', helmet?.title?.toString() || '')
+      .replace('<!--helmet.priority-->', helmet?.priority?.toString() || '')
+      .replace('<!--helmet.meta-->', helmet?.meta?.toString() || '')
+      .replace('<!--helmet.link-->', helmet?.link?.toString() || '')
+      .replace('<!--helmet.script-->', helmet?.script?.toString() || '')
+      .replace('data-helmet-html-attributes', helmet?.htmlAttributes?.toString() || '')
 
     res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
   } else {

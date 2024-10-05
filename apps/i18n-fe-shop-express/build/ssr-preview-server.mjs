@@ -51,14 +51,24 @@ const serverRender = (serverAPI) => async (_req, res, next) => {
 
   const fetchRequest = createFetchRequest(_req)
 
+  const helmetContext = {}
   const lang = getCurrentLanguage(_req.url)
-  const props = { url: _req.url, lang }
+  const props = { url: _req.url, lang, helmetContext }
   const isMatch = await indexModule.isMatchRoute(props)
   if (isMatch) {
     // const markup = await indexModule.renderHTMLByMemoryRouter(props)
     const markup = await indexModule.renderHTMLByRequest({ ...props, fetchRequest })
     const template = await serverAPI.environments.web.getTransformedHtml(lang)
-    const html = template.replace('<!--app-content-->', markup)
+    const helmet = helmetContext.helmet
+    const html = template
+      .replace('<!--app-content-->', markup)
+      .replace('<!--helmet.title-->', helmet?.title?.toString() || '')
+      .replace('<!--helmet.priority-->', helmet?.priority?.toString() || '')
+      .replace('<!--helmet.meta-->', helmet?.meta?.toString() || '')
+      .replace('<!--helmet.link-->', helmet?.link?.toString() || '')
+      .replace('<!--helmet.script-->', helmet?.script?.toString() || '')
+      .replace('data-helmet-html-attributes', helmet?.htmlAttributes?.toString() || '')
+
     res.writeHead(200, {
       'Content-Type': 'text/html'
     })

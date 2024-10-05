@@ -9,6 +9,10 @@ html[data-theme='dark'] {
   @include dark.theme-vars;
 }
 
+body {
+  background-color: antiquewhite;
+}
+
 .btn {
   display: block;
   margin: 10px;

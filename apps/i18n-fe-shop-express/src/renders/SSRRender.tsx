@@ -10,12 +10,15 @@ import {
 
 import { NationConfig } from '@/types'
 import { Root } from './Root'
+import { HelmetServerState } from 'react-helmet-async'
 
 export interface SSRRenderProps {
   /** 渲染路径，匹配路由，比如 /home */
   url: string
   /** 渲染国家-语言 */
   lang: string
+  /** seo meta等信息 */
+  helmetContext?: { helmet?: HelmetServerState }
 }
 
 export async function isMatchRoute(props: SSRRenderProps) {
@@ -36,7 +39,7 @@ export async function isMatchRoute(props: SSRRenderProps) {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest: any }) {
-  const { lang, fetchRequest } = props
+  const { lang, fetchRequest, helmetContext } = props
 
   try {
     const moduleConfig = await import(`../locals/${lang}/nation.config`)
@@ -47,7 +50,7 @@ export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest
     const router = createStaticRouter(handler.dataRoutes, context)
 
     return renderToString(
-      <Root lang={lang}>
+      <Root lang={lang} helmetContext={helmetContext}>
         <StaticRouterProvider router={router} context={context}></StaticRouterProvider>
       </Root>
     )
@@ -61,7 +64,7 @@ export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest
  * MemoryRouter方式ssr渲染
  */
 export async function renderHTMLByMemoryRouter(props: SSRRenderProps) {
-  const { url, lang } = props
+  const { url, lang, helmetContext } = props
 
   try {
     const moduleConfig = await import(`../locals/${lang}/nation.config`)
@@ -74,7 +77,7 @@ export async function renderHTMLByMemoryRouter(props: SSRRenderProps) {
     })
 
     return await renderHtmlPromise(
-      <Root lang={lang}>
+      <Root lang={lang} helmetContext={helmetContext}>
         <RouterProvider router={router}></RouterProvider>
       </Root>
     )
