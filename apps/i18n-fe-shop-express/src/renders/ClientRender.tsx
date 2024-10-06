@@ -2,13 +2,14 @@ import { getCurrentLanguage, log } from '@packages/utils'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import { assetPrefix } from '@/constants/env'
 import { NationConfig } from '@/types'
 import { fixLazyRoutes } from '@/utils'
 import { Root } from './Root'
 
 export async function setupClientApp(nationConfig: NationConfig) {
   const container = document.getElementById('root')
-  const lang = getCurrentLanguage()
+  const lang = getCurrentLanguage(window.location.pathname, assetPrefix)
   if (container) {
     // 获取root根节点内容
     const childNodes = container?.childNodes || []
@@ -21,7 +22,7 @@ export async function setupClientApp(nationConfig: NationConfig) {
       // 服务端水合渲染需处理lazy路由, 注意此处是异步的，必须要加载完成。否则水合时谁有2份一样的dom
       routes = await fixLazyRoutes(routes, lang)
     }
-    const router = createBrowserRouter(routes, { basename: `/${lang}` })
+    const router = createBrowserRouter(routes, { basename: `${assetPrefix}${lang}` })
     const rootElement = (
       <Root lang={lang}>
         <RouterProvider router={router} />

@@ -3,8 +3,6 @@ import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin'
 
 import baseConfig from './rsbuild.base.config'
 
-console.log('>>> process.env.assetPrefix', process.env.assetPrefix)
-
 const config = defineConfig({
   environments: {
     web: {
@@ -14,7 +12,7 @@ const config = defineConfig({
       },
       output: {
         // assetPrefix: 'https://cdn.example.com/assets/'
-        assetPrefix: process.env.assetPrefix || '/',
+        assetPrefix: process.env.CLIENT_ASSET_PREFIX || '/',
         distPath: {
           js: 'static/js/[runtime]'
         },

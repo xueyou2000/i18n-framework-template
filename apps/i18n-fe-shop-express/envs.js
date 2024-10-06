@@ -13,7 +13,8 @@
 function base() {
   return {
     TITLE: 'shop-express',
-    CLIENT_ENV: '客户端环境变量'
+    CLIENT_ENV: '客户端环境变量',
+    CLIENT_ASSET_PREFIX: '/'
   }
 }
 
@@ -27,5 +28,9 @@ module.exports = {
     OUT_DIR: 'dist',
     /** 是否ts类型检查(启用会比较耗时) */
     TYPE_CHECK: false
+  }),
+  prodPages: Object.assign(base(), {
+    // 输出路径
+    CLIENT_ASSET_PREFIX: '/i18n-framework-template/'
   })
 }
