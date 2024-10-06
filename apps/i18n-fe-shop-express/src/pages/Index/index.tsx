@@ -1,4 +1,7 @@
+import { memo } from 'react'
 import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
+
+import { useStoreDemo } from '@/stores'
 
 import './index.scss'
 
@@ -18,13 +21,36 @@ export const loader = async (args: LoaderFunctionArgs): Promise<LoaderData> => {
   }
 }
 
+const Box = memo(() => {
+  console.log('Box render')
+  return (
+    <div>
+      <CounterShow />
+    </div>
+  )
+})
+Box.displayName = 'Box'
+
+const CounterShow = memo(() => {
+  const { count } = useStoreDemo()
+  return <div>{count}</div>
+})
+CounterShow.displayName = 'CounterShow'
+
 export default function Index() {
   const data = useLoaderData() as LoaderData
+  const { inc } = useStoreDemo()
 
   return (
     <div className="index-page">
       <h1>Index {data?.date}</h1>
       <p>预加载数据 {data?.url}</p>
+      <Box />
+      <p>
+        由于是订阅模式, 不是context,
+        所以Box内部的CounterShow会更新,但是Box并不会重新选热,连render函数都不会再次运行
+      </p>
+      <button onClick={inc}>inc</button>
       <p>Index page</p>
       <p>Index page</p>
       <p>Index page</p>

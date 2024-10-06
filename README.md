@@ -2,26 +2,45 @@
 
 ## 介绍(Introduction)
 
+> 请安装较新版本的vscode, eslint最新版需要它
+
 一个国际化项目模板，基于 React + TypeScript + turbo + rspack 构建。
 
-## 路线图(Roadmap)
+## 项目结构
 
-- [x] turbo repo + pnpm workspace 构建多仓库
-- [x] eslint + stylelint + prettierrc + commitlint + husky 单独作为一个基础仓库
-- [ ] 响应式布局, 5 个断点， 字体大小自适应，
-- [ ] 轻量全局状态管理
-- [ ] seo 信息在编译 html 时候注入
-- [ ] 版本控制+tag 管理+gitlab 流水线
-- [ ] 使用类组件捕获异常
-- [ ] pwa, service worker
-- [ ] 国际化(语言、金额、日期...) 作为一个单独仓
-- [x] 不同语言入口可能不同
-- [ ] 统一日志，log工具。异常上报、APM
+```shell
+i18n-framework-template
+├── apps
+│   └── i18n-fe-shop-express    国际化前端项目
+├── framework
+|   ├── build                   rsbuild工具包
+|   ├── config-ts               ts通用配置
+│   └── lint-set                eslint,stylelint配置与依赖
+├── packages
+│   └── utils                   工具包
+├── turbo.json                  turbo配置
+├── eslint.config.mjs           eslint配置
+├── .prettierrc                 prettier配置
+├── stylelint.config.mjs        stylelint配置
+├── pnpm-workspace.yaml         多仓配置
+├── package.json
+└── tsconfig.json
+```
 
-## RsBuild 学习记录
+## 使用(Usage)
 
-### rsbuild-cli
+1. 安装依赖，多仓项目，直接在根仓库安装依赖即可
 
-options:
+```shell
+pnpm install
+```
 
-- `-m, --mode <mode>` 指定构建模式，可以是 `development`，`production` 或 `none`
+2. 启动i18n项目
+
+```shell
+# 不带参数默认启动全部国家
+pnpm dev:i18n-fe-shop-express
+
+# 启动指定国家(在项目根目录运行需要多加一层 --)
+pnpm dev:i18n-fe-shop-express -- -- --locals=in,zh-cn
+```

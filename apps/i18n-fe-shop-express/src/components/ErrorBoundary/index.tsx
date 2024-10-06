@@ -3,7 +3,7 @@ import { useRouteError, isRouteErrorResponse } from 'react-router-dom'
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
+  // console.error(error)
 
   if (isRouteErrorResponse(error)) {
     return (
@@ -17,7 +17,7 @@ export function ErrorBoundary() {
   }
   return (
     <div id="error-page">
-      <h1>Oops!</h1>
+      <h1>Oops! Page not found</h1>
     </div>
   )
 }

@@ -4,7 +4,7 @@ name: Rsbuild Deployment
 on:
   # 在推送到默认分支时触发
   push:
-    branches: ['main', 'next']
+    branches: ['main']
   # 允许你从 Actions Tabs 手动运行这个工作流
   workflow_dispatch:
 
