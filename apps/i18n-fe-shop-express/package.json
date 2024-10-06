@@ -16,6 +16,7 @@
     "lint": "npm run lint:eslint && npm run lint:stylelint",
     "dev": "env-cmd -e dev -r ./envs.js rsbuild dev -c ./build/rsbuild.dev.config.ts --environment web",
     "build": "env-cmd -e prod -r ./envs.js rsbuild build -c ./build/rsbuild.prod.config.ts --environment web",
+    "build-github-pages": "cross-env assetPrefix=/i18n-framework-template/ pnpm run build",
     "build-all": "env-cmd -e prod -r ./envs.js rsbuild build -c ./build/rsbuild.prod.config.ts",
     "build-ssr-server": "env-cmd -e prod -r ./envs.js node ./build/ssr-prod-server.mjs",
     "analyze": "env-cmd -e prod -r ./envs.js cross-env RSDOCTOR=1 rsbuild build -c ./build/rsbuild.prod.config.ts  --environment web",

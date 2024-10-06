@@ -2,6 +2,8 @@
 
 国际化商城前端项目
 
+[github pages](https://xueyou2000.github.io/i18n-framework-template/zh-cn/)
+
 ## 项目结构
 
 ```shell

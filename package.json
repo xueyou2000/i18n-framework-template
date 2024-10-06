@@ -15,6 +15,7 @@
     "dev:i18n-fe-shop-express": "turbo run dev --filter=@app/i18n-fe-shop-express",
     "dev": "turbo dev --log-prefix=none",
     "build:i18n-fe-shop-express": "turbo build --filter=@app/i18n-fe-shop-express",
+    "build-github-pages": "turbo build-github-pages --filter=@app/i18n-fe-shop-express",
     "build": "turbo build --log-prefix=none"
   },
   "files": [

@@ -39,7 +39,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm build:i18n-fe-shop-express
+        run: pnpm build-github-pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -6,6 +6,11 @@
       "outputs": ["dist/**"],
       "cache": true
     },
+    "build-github-pages": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
     "preview": {},
     "lint": {},
     "stub": {},

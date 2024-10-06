@@ -3,6 +3,8 @@ import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin'
 
 import baseConfig from './rsbuild.base.config'
 
+console.log('>>> process.env.assetPrefix', process.env.assetPrefix)
+
 const config = defineConfig({
   environments: {
     web: {
@@ -11,12 +13,14 @@ const config = defineConfig({
         include: [/[\\/]node_modules[\\/](react-router|react-router-dom|@remix-run[\\/]router)/]
       },
       output: {
+        // assetPrefix: 'https://cdn.example.com/assets/'
+        assetPrefix: process.env.assetPrefix || '/',
         distPath: {
           js: 'static/js/[runtime]'
         },
         // polyfill: 'usage',
         legalComments: 'none',
-        // assetPrefix: 'https://cdn.example.com/assets/'
+
         manifest: true
         // externals: {
         //   react: 'React',
