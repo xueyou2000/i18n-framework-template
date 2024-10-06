@@ -1,5 +1,6 @@
-import { memo } from 'react'
+import { memo, PropsWithChildren, useMemo } from 'react'
 import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
+import { log } from '@packages/utils'
 
 import { useStoreDemo } from '@/stores'
 
@@ -21,35 +22,41 @@ export const loader = async (args: LoaderFunctionArgs): Promise<LoaderData> => {
   }
 }
 
-const Box = memo(() => {
-  console.log('Box render')
-  return (
-    <div>
-      <CounterShow />
-    </div>
-  )
+const Box = memo(({ children }: PropsWithChildren) => {
+  log.info('Box渲染')
+  return <div>{children}</div>
 })
 Box.displayName = 'Box'
 
-const CounterShow = memo(() => {
+// const CounterShow = memo(() => {
+//   const { count } = useStoreDemo()
+//   return <div>{count}</div>
+// })
+// CounterShow.displayName = 'CounterShow'
+
+/**
+ * 由于CounterShow在使用时被useMemo了，所以这里省略了memo化
+ */
+function CounterShow() {
   const { count } = useStoreDemo()
   return <div>{count}</div>
-})
-CounterShow.displayName = 'CounterShow'
+}
 
 export default function Index() {
   const data = useLoaderData() as LoaderData
-  const { inc } = useStoreDemo()
+  const { count, inc } = useStoreDemo()
+
+  /** CounterShow内部的状态是订阅模式，并不依赖context等state */
+  const counter = useMemo(() => <CounterShow />, [])
+
+  log.info('Index渲染', `count=${count}`)
 
   return (
     <div className="index-page">
       <h1>Index {data?.date}</h1>
       <p>预加载数据 {data?.url}</p>
-      <Box />
-      <p>
-        由于是订阅模式, 不是context,
-        所以Box内部的CounterShow会更新,但是Box并不会重新选热,连render函数都不会再次运行
-      </p>
+      <Box>{counter}</Box>
+      <p>用useMemo包裹, 因为children会每次都是新的</p>
       <button onClick={inc}>inc</button>
       <p>Index page</p>
       <p>Index page</p>
