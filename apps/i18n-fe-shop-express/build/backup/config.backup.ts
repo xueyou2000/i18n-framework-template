@@ -1,6 +1,6 @@
 import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import { BaseConfig } from '@framework/build'
-import signale from 'signale'
+import { consola } from 'consola'
 
 import { getLocalsInfo, getEntries } from './utils'
 import { i18nOutputPlugin } from './plugins'
@@ -51,7 +51,7 @@ const config = defineConfig({
     template({ entryName }) {
       const htmlTemplate = localInfo.get(entryName)?.htmlTemplate
       if (!htmlTemplate) {
-        signale.error(`入口HTML没有配置: ${entryName}`)
+        consola.error(new Error(`入口HTML没有配置: ${entryName}`))
       }
       return htmlTemplate
     },

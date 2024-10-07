@@ -10,5 +10,8 @@
   "devDependencies": {
     "@framework/lint-set": "workspace:^",
     "@framework/config-ts": "workspace:^"
+  },
+  "peerDependencies": {
+    "consola": "^3.2.3"
   }
 }

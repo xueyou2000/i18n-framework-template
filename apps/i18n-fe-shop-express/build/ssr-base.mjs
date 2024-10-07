@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import signale from 'signale'
+import { consola } from 'consola'
 
 export const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
@@ -65,7 +65,7 @@ export async function serverRenderExpress(
   if (html) {
     const pathname = request.url
     const lang = getCurrentLanguage(pathname)
-    signale.success(`服务端渲染成功: lang=${lang} pathname=${pathname}`)
+    consola.success(`服务端渲染成功: lang=${lang} pathname=${pathname}`)
     response.status(200).set({ 'Content-Type': 'text/html' }).send(html)
   } else {
     next()

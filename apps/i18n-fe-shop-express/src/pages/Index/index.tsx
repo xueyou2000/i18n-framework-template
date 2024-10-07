@@ -1,6 +1,6 @@
 import { memo, PropsWithChildren, useMemo } from 'react'
 import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
-import { log } from '@packages/utils'
+import { logger } from '@packages/utils'
 
 import { useStoreDemo } from '@/stores'
 
@@ -23,7 +23,7 @@ export const loader = async (args: LoaderFunctionArgs): Promise<LoaderData> => {
 }
 
 const Box = memo(({ children }: PropsWithChildren) => {
-  log.info('Box渲染')
+  logger.info('Box渲染')
   return <div>{children}</div>
 })
 Box.displayName = 'Box'
@@ -49,7 +49,7 @@ export default function Index() {
   /** CounterShow内部的状态是订阅模式，并不依赖context等state */
   const counter = useMemo(() => <CounterShow />, [])
 
-  log.info('Index渲染', `count=${count}`)
+  logger.info('Index渲染', `count=${count}`, '6666')
 
   return (
     <div className="index-page">

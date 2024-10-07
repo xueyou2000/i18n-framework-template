@@ -1,5 +1,5 @@
 import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
-import { log } from '@packages/utils'
+import { logger } from '@packages/utils'
 
 import './index.scss'
 
@@ -29,7 +29,7 @@ export default function About() {
   const data = useLoaderData() as LoaderData
 
   function handleClick() {
-    log.info('>>> click')
+    logger.info('>>> click')
   }
 
   return (

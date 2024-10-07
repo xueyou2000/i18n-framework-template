@@ -1,4 +1,4 @@
-import { getCurrentLanguage, log } from '@packages/utils'
+import { getCurrentLanguage, logger } from '@packages/utils'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -37,7 +37,8 @@ export async function setupClientApp(nationConfig: NationConfig) {
       // 水合渲染
       hydrateRoot(container, rootElement, {
         onRecoverableError(error, errorInfo) {
-          log.error(`水合失败: ${errorInfo?.digest}`)
+          logger.fail(`水合失败: ${errorInfo?.digest}`)
+          logger.error(error)
         }
       })
     }

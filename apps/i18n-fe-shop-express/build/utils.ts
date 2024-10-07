@@ -3,7 +3,7 @@ import { RsbuildEntryDescription } from '@rsbuild/core'
 import fastGlob from 'fast-glob'
 import { existsSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
-import signale from 'signale'
+import { consola } from 'consola'
 
 const LOCAL_DIR = join(__dirname, '../src/locals')
 const ENTRIES_FILE_NAME = 'index.tsx'
@@ -46,7 +46,7 @@ export function getLocalsInfo() {
     locals = locals.filter((local) => {
       const checkFile = hasLocal(local)
       if (!checkFile) {
-        signale.error(`local入口文件不存在: ${local}`)
+        consola.error(new Error(`local入口文件不存在: ${local}`))
       }
       return checkFile
     })
@@ -55,7 +55,7 @@ export function getLocalsInfo() {
     locals = getAllLocals()
   }
 
-  signale.info(`编译国家: ${locals.join(', ')}`)
+  consola.info(`编译国家: ${locals.join(', ')}`)
 
   locals.forEach((local) => {
     local = local.toLowerCase()
