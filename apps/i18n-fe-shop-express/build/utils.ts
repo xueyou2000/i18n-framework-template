@@ -5,15 +5,18 @@ import { existsSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 import { consola } from 'consola'
 
+export const MANIFEST_NAME = 'manifest.json'
 const LOCAL_DIR = join(__dirname, '../src/locals')
 const ENTRIES_FILE_NAME = 'index.tsx'
 const DEFAULT_HTML = join(__dirname, '../src/locals/index.html')
+const DEFAULT_MANIFEST = join(__dirname, `../src/locals/${MANIFEST_NAME}`)
 export const SSR_RENDER_FILE = join(__dirname, '../src/renders/SSRRender.tsx')
 
 export interface LocalInfo {
   local: string
   entries: string
   htmlTemplate: string
+  manifest: string
 }
 
 /**
@@ -60,10 +63,12 @@ export function getLocalsInfo() {
   locals.forEach((local) => {
     local = local.toLowerCase()
     const localHtml = join(LOCAL_DIR, `/${local}/index.html`)
+    const localManifest = join(LOCAL_DIR, `/${local}/manifest.json`)
     const info: LocalInfo = {
       local,
       entries: join(LOCAL_DIR, `/${local}/${ENTRIES_FILE_NAME}`),
-      htmlTemplate: existsSync(localHtml) ? localHtml : DEFAULT_HTML
+      htmlTemplate: existsSync(localHtml) ? localHtml : DEFAULT_HTML,
+      manifest: existsSync(localManifest) ? localManifest : DEFAULT_MANIFEST
     }
     result.set(local, info)
   })
@@ -81,6 +86,28 @@ export function getEntries(localInfo: Map<string, LocalInfo>) {
       import: info.entries
       // filename: `${local}/[name].[contenthash:8].js`
     }
+  }
+  return result
+}
+
+/**
+ * 获取多语言数组
+ */
+export function getLocals(localInfo: Map<string, LocalInfo>) {
+  const result: string[] = []
+  for (const local of localInfo.keys()) {
+    result.push(local)
+  }
+  return result
+}
+
+/**
+ * 获取多语言配置
+ */
+export function getMultiConfig(localInfo: Map<string, LocalInfo>, configKey: keyof LocalInfo) {
+  const result: string[] = []
+  for (const info of localInfo.values()) {
+    result.push(info[configKey])
   }
   return result
 }

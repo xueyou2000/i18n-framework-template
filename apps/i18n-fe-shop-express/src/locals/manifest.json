@@ -3,7 +3,6 @@
   "name": "i18n-fe-shop-express",
   "short_name": "shop-express",
   "description": "i18n-fe应用",
-  "id": "http://localhost:8080/",
   "icons": [
     {
       "src": "/icons/shop-icon-128x128.png",
@@ -29,7 +28,7 @@
       "form_factor": "wide"
     }
   ],
-  "start_url": "/in/",
+  "start_url": "/",
   "scope": "/",
   "display": "fullscreen",
   "background_color": "#000000",
