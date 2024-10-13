@@ -1,9 +1,17 @@
 [production]
-chrome >= 49
-edge >= 88
-firefox >= 45
-safari >= 10
-ie >= 10
+ie 11
+chrome 49
+firefox 45
+safari 9
+ios_saf 9
+android 4.4.3
+
+# 兼容更低端的浏览器
+# chrome >= 49
+# edge >= 88
+# firefox >= 45
+# safari >= 10
+# ie >= 10
 
 [development]
 last 2 chrome version

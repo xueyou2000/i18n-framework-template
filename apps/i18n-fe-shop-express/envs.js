@@ -13,7 +13,8 @@
 function base() {
   return {
     TITLE: 'shop-express',
-    CLIENT_ENV: '客户端环境变量',
+    /** 是否关闭console */
+    CLIENT_DISABLED_CONSOLE: false,
     CLIENT_ASSET_PREFIX: '/'
   }
 }

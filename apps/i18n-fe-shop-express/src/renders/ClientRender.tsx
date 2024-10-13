@@ -37,8 +37,8 @@ export async function setupClientApp(nationConfig: NationConfig) {
       // 水合渲染
       hydrateRoot(container, rootElement, {
         onRecoverableError(error, errorInfo) {
-          logger.fail(`水合失败: ${errorInfo?.digest}`)
-          logger.error(error)
+          logger.error(`水合失败: ${errorInfo?.digest}`)
+          console.error(error)
         }
       })
     }

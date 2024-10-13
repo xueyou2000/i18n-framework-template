@@ -12,6 +12,7 @@
     "@framework/config-ts": "workspace:^"
   },
   "peerDependencies": {
-    "consola": "^3.2.3"
+    "consola": "^3.2.3",
+    "@types/node": "^22.7.4"
   }
 }

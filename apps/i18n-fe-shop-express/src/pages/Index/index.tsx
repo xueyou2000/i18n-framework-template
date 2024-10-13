@@ -49,7 +49,7 @@ export default function Index() {
   /** CounterShow内部的状态是订阅模式，并不依赖context等state */
   const counter = useMemo(() => <CounterShow />, [])
 
-  logger.info('Index渲染', `count=${count}`, '6666')
+  logger.info('Index渲染', `count=${count}`)
 
   return (
     <div className="index-page">
