@@ -19,7 +19,7 @@ const config = defineConfig({
         },
         // polyfill: 'usage',
         legalComments: 'none',
-        manifest: true,
+        manifest: 'rsbuild-manifest.json',
         externals: {
           react: 'React',
           'react-dom': 'ReactDOM'

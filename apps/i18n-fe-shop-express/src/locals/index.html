@@ -1,16 +1,20 @@
 <!doctype html>
 <html lang="<%= entryName %>" data-helmet-html-attributes>
-  <head>
-    <!--helmet.title-->
-    <!--helmet.priority-->
-    <!--helmet.meta-->
-    <!--helmet.link-->
-    <!--helmet.script-->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="a description of the page" />
-  </head>
-  <body>
-    <div id="<%= mountId %>"><!--app-content--></div>
-  </body>
+
+<head>
+  <!--helmet.title-->
+  <!--helmet.priority-->
+  <!--helmet.meta-->
+  <!--helmet.link-->
+  <!--helmet.script-->
+  <meta charset="UTF-8" />
+  <link rel=manifest href=/manifest.json>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="a description of the page" />
+</head>
+
+<body>
+  <div id="<%= mountId %>"><!--app-content--></div>
+</body>
+
 </html>
