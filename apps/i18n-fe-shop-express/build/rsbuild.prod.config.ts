@@ -1,5 +1,6 @@
 import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin'
+import { GenerateSW } from 'workbox-webpack-plugin'
 
 import baseConfig from './rsbuild.base.config'
 
@@ -64,6 +65,39 @@ const config = defineConfig({
       // },
       tools: {
         rspack(_, { appendPlugins }) {
+          appendPlugins(
+            new GenerateSW({
+              // importWorkboxFrom: 'local',
+              skipWaiting: true,
+              clientsClaim: true,
+              runtimeCaching: [
+                {
+                  // To match cross-origin requests, use a RegExp that matches
+                  // the start of the origin:
+                  urlPattern: new RegExp('^https://api'),
+                  handler: 'StaleWhileRevalidate',
+                  options: {
+                    // Configure which responses are considered cacheable.
+                    cacheableResponse: {
+                      statuses: [200]
+                    }
+                  }
+                },
+                {
+                  urlPattern: new RegExp('^https://cdn'),
+                  // Apply a network-first strategy.
+                  handler: 'NetworkFirst',
+                  options: {
+                    // Fall back to the cache after 2 seconds.
+                    networkTimeoutSeconds: 2,
+                    cacheableResponse: {
+                      statuses: [200]
+                    }
+                  }
+                }
+              ]
+            })
+          )
           if (process.env.RSDOCTOR) {
             appendPlugins(
               new RsdoctorRspackPlugin({
