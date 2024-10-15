@@ -65,9 +65,11 @@ const config = defineConfig({
       // },
       tools: {
         rspack(_, { appendPlugins }) {
+          // TODO: 每个国家一个插件！！
           appendPlugins(
             new GenerateSW({
               // importWorkboxFrom: 'local',
+              mode: 'production',
               skipWaiting: true,
               clientsClaim: true,
               runtimeCaching: [

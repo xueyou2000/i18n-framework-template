@@ -2,6 +2,8 @@ import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import { BaseConfig } from '@framework/build'
 import { consola } from 'consola'
 
+const { npm_package_version } = process.env
+
 import { getLocalsInfo, getEntries, SSR_RENDER_FILE, getLocals, MANIFEST_NAME } from './utils'
 
 const localInfo = getLocalsInfo()
@@ -10,7 +12,10 @@ const config = defineConfig({
   environments: {
     web: {
       source: {
-        entry: getEntries(localInfo)
+        entry: getEntries(localInfo),
+        define: {
+          'process.env.VERSION': `${npm_package_version}@${Date.now()}`
+        }
       },
       output: {
         target: 'web',
