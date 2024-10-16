@@ -11,6 +11,9 @@ export async function setupClientApp(nationConfig: NationConfig) {
   const container = document.getElementById('root')
   const lang = getCurrentLanguage(window.location.pathname, assetPrefix)
   if (container) {
+    // initI18n()
+    // dayjs.locale(config.dayjsLocal)
+
     // 获取root根节点内容
     const childNodes = container?.childNodes || []
     // 忽略ssr占位符注释, 判断是否有ssr预渲染内容，有则进行水合

@@ -12,6 +12,9 @@ import {
 import { NationConfig, RouteCommonProps } from '@/types'
 import { isMatchRoute } from '@/utils'
 
+import i18next from 'i18next'
+import { I18nextProvider } from 'react-i18next'
+
 import { Root } from './Root'
 
 export interface SSRRenderProps extends RouteCommonProps {
@@ -34,10 +37,24 @@ export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest
     const context = (await handler.query(fetchRequest)) as StaticHandlerContext
     const router = createStaticRouter(handler.dataRoutes, context)
 
+    // const currentLocale = nationConfig.lang
+    // const bundledResources = {
+    //   [currentLocale]: {
+    //     translation: require(`./../translation/${currentLocale}.json`)
+    //   }
+    // }
+    // initI18nSSR(currentLocale, bundledResources)
+    // const { t: get } = useTranslation()
+
+    // require(`dayjs/locale/${nationConfig.dayjsLocal}`)
+    // dayjs.locale(nationConfig.dayjsLocal)
+
     return renderToString(
-      <Root lang={lang} helmetContext={helmetContext}>
-        <StaticRouterProvider router={router} context={context}></StaticRouterProvider>
-      </Root>
+      <I18nextProvider i18n={i18next}>
+        <Root lang={lang} helmetContext={helmetContext}>
+          <StaticRouterProvider router={router} context={context}></StaticRouterProvider>
+        </Root>
+      </I18nextProvider>
     )
   } catch (error) {
     console.error('服务端渲染失败', error)

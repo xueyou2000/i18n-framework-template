@@ -28,6 +28,8 @@ export function Root(props: PropsWithChildren<RootProps>) {
   const { lang, children, helmetContext } = props
   // TODO: 注入一些context全局上下文
 
+  // const { t: get } = useTranslation()
+
   return (
     <HelmetProvider context={helmetContext}>
       <Helmet prioritizeSeoTags htmlAttributes={{ lang, 'data-lang': lang }}>
