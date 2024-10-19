@@ -7,3 +7,6 @@ declare namespace NodeJS {
     locals?: string
   }
 }
+
+// eslint-disable-next-line no-var
+declare var self: ServiceWorkerGlobalScope

@@ -4,6 +4,7 @@ import fastGlob from 'fast-glob'
 import { existsSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 import { consola } from 'consola'
+import { InjectManifest } from '@aaroon/workbox-rspack-plugin'
 
 export const MANIFEST_NAME = 'manifest.json'
 const LOCAL_DIR = join(__dirname, '../src/locals')
@@ -110,4 +111,21 @@ export function getMultiConfig(localInfo: Map<string, LocalInfo>, configKey: key
     result.push(info[configKey])
   }
   return result
+}
+
+/**
+ * 创建多入口SW插件
+ */
+export function createSWPlugins(localInfo: Map<string, LocalInfo>) {
+  return getLocals(localInfo).map(
+    (local) =>
+      new InjectManifest({
+        // mode: 'production',
+        // chunks: [local],
+        // injectionPoint: 'self.__WB_MANIFEST',
+        swSrc: join(__dirname, `../src/locals/${local}/sw.ts`),
+        swDest: `${local}/${local}-sw.js`
+        // include: [/\.html$/, /\.js$/, /\.css$/, /\.woff2$/, /\.jpg$/, /\.png$/]
+      })
+  )
 }

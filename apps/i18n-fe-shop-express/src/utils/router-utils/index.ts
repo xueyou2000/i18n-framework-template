@@ -8,6 +8,10 @@ import { matchRoutes, RouteObject } from 'react-router'
 export async function isMatchRoute(props: RouteCommonProps) {
   const { url, lang } = props
   try {
+    if (url === `/${lang}/manifest.json`) {
+      return false
+    }
+
     const moduleConfig = await import(`../../locals/${lang}/nation.config`)
     const nationConfig = moduleConfig.nationConfig as NationConfig
     const matchRouteList = matchRoutes(nationConfig.routes, url, `/${lang}`)

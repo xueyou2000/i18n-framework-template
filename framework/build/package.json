@@ -18,7 +18,7 @@
     "@framework/config-ts": "workspace:^"
   },
   "peerDependencies": {
-    "@rsbuild/core": "^1.0.8",
+    "@rsbuild/core": "^1.0.13",
     "@rsbuild/plugin-react": "^1.0.3",
     "@rsbuild/plugin-sass": "^1.0.1",
     "@rsbuild/plugin-type-check": "^1.0.1",

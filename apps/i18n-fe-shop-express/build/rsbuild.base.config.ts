@@ -6,7 +6,7 @@ const { npm_package_version } = process.env
 
 import { getLocalsInfo, getEntries, SSR_RENDER_FILE, getLocals, MANIFEST_NAME } from './utils'
 
-const localInfo = getLocalsInfo()
+export const localInfo = getLocalsInfo()
 
 const config = defineConfig({
   environments: {
@@ -14,7 +14,7 @@ const config = defineConfig({
       source: {
         entry: getEntries(localInfo),
         define: {
-          'process.env.VERSION': `${npm_package_version}@${Date.now()}`
+          'process.env.VERSION': JSON.stringify(`${npm_package_version}@${Date.now()}`)
         }
       },
       output: {
@@ -32,6 +32,7 @@ const config = defineConfig({
                 const json = JSON.parse(content)
                 // 改写 manifest start_url
                 json.start_url = `/${local}/`
+                json.scope = `/${local}/`
                 return JSON.stringify(json)
               }
             }

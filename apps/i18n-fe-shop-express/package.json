@@ -42,13 +42,14 @@
     "npm": ">=9.6.7"
   },
   "peerDependencies": {
-    "@rsbuild/core": "^1.0.8",
+    "@rsbuild/core": "^1.0.13",
     "@rsbuild/plugin-react": "^1.0.3",
     "@rsbuild/plugin-sass": "^1.0.1",
     "@rsbuild/plugin-type-check": "^1.0.1",
     "@rsdoctor/rspack-plugin": "^0.4.5"
   },
   "devDependencies": {
+    "@aaroon/workbox-rspack-plugin": "^0.3.2",
     "@framework/build": "workspace:^",
     "@framework/config-ts": "workspace:^",
     "@framework/lint-set": "workspace:^",
@@ -65,7 +66,12 @@
     "fast-glob": "^3.3.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "workbox-webpack-plugin": "^7.1.0"
+    "workbox-cacheable-response": "^7.1.0",
+    "workbox-core": "^7.1.0",
+    "workbox-expiration": "^7.1.0",
+    "workbox-precaching": "^7.1.0",
+    "workbox-routing": "^7.1.0",
+    "workbox-strategies": "^7.1.0"
   },
   "dependencies": {
     "consola": "^3.2.3",

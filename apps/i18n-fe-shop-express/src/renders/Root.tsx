@@ -12,8 +12,8 @@ interface RootProps {
 }
 
 if (!isDevMode) {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
+  if (global.navigator && 'serviceWorker' in global.navigator) {
+    global.navigator.serviceWorker
       .register('/service-worker.js')
       .then((registration) => {
         console.log('ServiceWorker registration successful with scope: ', registration.scope)
