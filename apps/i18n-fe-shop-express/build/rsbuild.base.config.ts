@@ -67,7 +67,7 @@ const config = defineConfig({
                 publicPath: false,
                 append: false,
                 attrs: {
-                  href: `/${context.entryName}/${MANIFEST_NAME}`,
+                  href: `${process.env.CLIENT_ASSET_PREFIX}${context.entryName}/${MANIFEST_NAME}`,
                   ref: 'manifest'
                 }
               }

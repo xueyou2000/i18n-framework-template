@@ -5,19 +5,19 @@
   "description": "i18n-fe应用",
   "icons": [
     {
-      "src": "/icons/shop-icon-128x128.png",
+      "src": "/imgs/icons/shop-icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "/icons/shop-icon-512x512.png",
+      "src": "/imgs/icons/shop-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
   "screenshots": [
     {
-      "src": "/icons/shop-icon-512x512.png",
+      "src": "/imgs/icons/shop-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     },

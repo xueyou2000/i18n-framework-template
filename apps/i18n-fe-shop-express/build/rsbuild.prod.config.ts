@@ -4,7 +4,6 @@ import { InjectManifest } from '@aaroon/workbox-rspack-plugin'
 import { join } from 'node:path'
 
 import baseConfig from './rsbuild.base.config'
-import { VERSION } from './utils'
 
 const config = defineConfig({
   environments: {
@@ -17,11 +16,20 @@ const config = defineConfig({
       output: {
         // assetPrefix: 'https://cdn.example.com/assets/'
         assetPrefix: process.env.CLIENT_ASSET_PREFIX || '/',
-        distPath: {
-          js: `static/${VERSION}/js`,
-          css: `static/${VERSION}/css`
-        },
+        // distPath: {
+        //   js: `static/${VERSION}/js`,
+        //   css: `static/${VERSION}/css`
+        // },
         // polyfill: 'usage',
+        // filename: {
+        //   js(pathData) {
+        //     if (pathData.runtime && pathData.runtime === pathData.chunk?.name) {
+        //       // 入口文件
+        //       return `${pathData.runtime}/[name].[contenthash:8].js`
+        //     }
+        //     return 'static/js/[name].[contenthash:8].js'
+        //   }
+        // },
         legalComments: 'none',
         manifest: 'rsbuild-manifest.json',
         externals: {
@@ -67,7 +75,7 @@ const config = defineConfig({
       //   }
       // },
       tools: {
-        rspack(_, { appendPlugins }) {
+        rspack(config, { appendPlugins }) {
           // sw插件
           appendPlugins(
             new InjectManifest({
