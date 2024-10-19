@@ -6,12 +6,17 @@ import { basename, dirname, join } from 'node:path'
 import { consola } from 'consola'
 import { InjectManifest } from '@aaroon/workbox-rspack-plugin'
 
+const { npm_package_version } = process.env
+
 export const MANIFEST_NAME = 'manifest.json'
 const LOCAL_DIR = join(__dirname, '../src/locals')
 const ENTRIES_FILE_NAME = 'index.tsx'
 const DEFAULT_HTML = join(__dirname, '../src/locals/index.html')
 const DEFAULT_MANIFEST = join(__dirname, `../src/locals/${MANIFEST_NAME}`)
 export const SSR_RENDER_FILE = join(__dirname, '../src/renders/SSRRender.tsx')
+
+export const VERSION = `${npm_package_version}`
+export const VERSION_TIME = `${npm_package_version}@${Date.now()}`
 
 export interface LocalInfo {
   local: string

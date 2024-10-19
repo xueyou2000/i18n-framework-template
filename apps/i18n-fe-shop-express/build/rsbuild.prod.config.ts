@@ -1,9 +1,10 @@
 import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin'
+import { InjectManifest } from '@aaroon/workbox-rspack-plugin'
 import { join } from 'node:path'
 
 import baseConfig from './rsbuild.base.config'
-import { InjectManifest } from '@aaroon/workbox-rspack-plugin'
+import { VERSION } from './utils'
 
 const config = defineConfig({
   environments: {
@@ -17,7 +18,8 @@ const config = defineConfig({
         // assetPrefix: 'https://cdn.example.com/assets/'
         assetPrefix: process.env.CLIENT_ASSET_PREFIX || '/',
         distPath: {
-          js: 'static/js/[runtime]'
+          js: `static/${VERSION}/js`,
+          css: `static/${VERSION}/css`
         },
         // polyfill: 'usage',
         legalComments: 'none',

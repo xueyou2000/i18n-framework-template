@@ -2,9 +2,14 @@ import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import { BaseConfig } from '@framework/build'
 import { consola } from 'consola'
 
-const { npm_package_version } = process.env
-
-import { getLocalsInfo, getEntries, SSR_RENDER_FILE, getLocals, MANIFEST_NAME } from './utils'
+import {
+  getLocalsInfo,
+  getEntries,
+  SSR_RENDER_FILE,
+  getLocals,
+  MANIFEST_NAME,
+  VERSION
+} from './utils'
 
 export const localInfo = getLocalsInfo()
 
@@ -14,7 +19,7 @@ const config = defineConfig({
       source: {
         entry: getEntries(localInfo),
         define: {
-          'process.env.VERSION': JSON.stringify(`${npm_package_version}@${Date.now()}`)
+          'process.env.VERSION': JSON.stringify(`${VERSION}`)
         }
       },
       output: {
