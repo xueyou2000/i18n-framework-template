@@ -1,14 +1,18 @@
 import { setupClientApp } from '@/renders/ClientRender'
+import { initI18nClient } from '@/utils'
 
-import { nationConfig } from './nation.config'
+import { nationConfig, nationRoutes } from './nation.config'
 
-import 'dayjs/locale/zh-cn'
+// import 'dayjs/locale/zh-cn'
 
-// const currentLocale = 'zh-cn'
-// const bundledResources = {
-//   [currentLocale]: {
-//     translation: require('@/src/translation/zh-cn.json')
-//   }
-// }
+const lang = nationConfig.lang
+const bundledResources = {
+  [lang]: {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    translation: require('./translation.json')
+  }
+}
 
-setupClientApp(nationConfig)
+initI18nClient(nationConfig.locale, lang, bundledResources, () => {
+  setupClientApp(nationConfig, nationRoutes)
+})

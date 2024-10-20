@@ -1,13 +1,21 @@
-import type { RouteObject } from 'react-router-dom'
-
 /**
  * 国家配置
  */
 export interface NationConfig {
-  /** 路由配置 */
-  routes: RouteObject[]
+  /** 站点名称 */
+  locale: string
+  /** 国家-语言代码 */
+  lang: string
+  /** 国家名称 */
+  countryName: string
+  /** 2位国家代码 */
+  countryTwoLetterCode: string
+  /** 首都 */
+  capital: string
   /** 货币符号 */
   currencySymbol: string
+  /** 国际区号, 如: +86 */
+  internationalCode: string
 }
 
 /**
@@ -16,6 +24,6 @@ export interface NationConfig {
 export interface RouteCommonProps {
   /** 渲染路径，匹配路由，比如 /home */
   url: string
-  /** 渲染国家-语言 */
-  lang: string
+  /** 渲染市场 */
+  locale: string
 }

@@ -18,14 +18,14 @@ export const require = createRequire(import.meta.url)
 export async function serverRender(fetchRequest, SSRRenderModule, getHtmlTemplate) {
   const helmetContext = {}
   const { pathname } = new URL(fetchRequest.url)
-  const lang = getCurrentLanguage(pathname)
-  const props = { url: pathname, lang, helmetContext }
+  const locale = getCurrentLanguage(pathname)
+  const props = { url: pathname, locale, helmetContext }
   const isMatch = await SSRRenderModule.isMatchRoute(props)
 
   if (isMatch) {
     // const htmlContent = await SSRRenderModule.renderHTMLByMemoryRouter(props)
     const htmlContent = await SSRRenderModule.renderHTMLByRequest({ ...props, fetchRequest })
-    // const template = await readFile(join(__dirname, `../dist/${lang}/index.html`), 'utf-8')
+    // const template = await readFile(join(__dirname, `../dist/${locale}/index.html`), 'utf-8')
     const helmet = helmetContext.helmet
     const htmlTemplate = await getHtmlTemplate()
     const html = htmlTemplate

@@ -1,6 +1,7 @@
 import { memo, PropsWithChildren, useMemo } from 'react'
 import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
 import { logger } from '@packages/utils'
+import { useTranslation } from 'react-i18next'
 
 import { useStoreDemo } from '@/stores'
 
@@ -45,6 +46,7 @@ function CounterShow() {
 export default function Index() {
   const data = useLoaderData() as LoaderData
   const { count, inc } = useStoreDemo()
+  const { t } = useTranslation()
 
   /** CounterShow内部的状态是订阅模式，并不依赖context等state */
   const counter = useMemo(() => <CounterShow />, [])
@@ -55,6 +57,7 @@ export default function Index() {
     <div className="index-page">
       <h1>Index {data?.date}</h1>
       <p>预加载数据 {data?.url}</p>
+      <p>国际化: {t('hello')}</p>
       <Box>{counter}</Box>
       <p>用useMemo包裹, 因为children会每次都是新的</p>
       <button onClick={inc}>inc</button>

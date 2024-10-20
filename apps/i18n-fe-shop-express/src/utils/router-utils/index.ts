@@ -1,4 +1,4 @@
-import { NationConfig, RouteCommonProps } from '@/types'
+import { RouteCommonProps } from '@/types'
 import { matchRoutes, RouteObject } from 'react-router'
 
 /**
@@ -6,15 +6,15 @@ import { matchRoutes, RouteObject } from 'react-router'
  * @description 用于本地服务器根据路径判断是否服务端渲染，或者仅仅返回静态文件
  */
 export async function isMatchRoute(props: RouteCommonProps) {
-  const { url, lang } = props
+  const { url, locale } = props
   try {
-    if (url === `/${lang}/manifest.json`) {
+    if (url === `/${locale}/manifest.json`) {
       return false
     }
 
-    const moduleConfig = await import(`../../locals/${lang}/nation.config`)
-    const nationConfig = moduleConfig.nationConfig as NationConfig
-    const matchRouteList = matchRoutes(nationConfig.routes, url, `/${lang}`)
+    const moduleConfig = await import(`../../locals/${locale}/nation.config`)
+    const nationRoutes = moduleConfig.nationRoutes as RouteObject[]
+    const matchRouteList = matchRoutes(nationRoutes, url, `/${locale}`)
 
     return !!matchRouteList?.length
   } catch {
@@ -26,9 +26,9 @@ export async function isMatchRoute(props: RouteCommonProps) {
  * 预加载lazy路由
  * @description 此步骤非常重要, 不过没有此步骤，那么会保留服务端渲染的内容，客户端会又渲染一份dom!!!
  */
-export async function fixLazyRoutes(routes: RouteObject[], lang: string) {
+export async function fixLazyRoutes(routes: RouteObject[], locale: string) {
   // 确定是否有任何初始路由是惰性的
-  const lazyMatches = matchRoutes(routes, window.location.pathname, `/${lang}`)?.filter(
+  const lazyMatches = matchRoutes(routes, window.location.pathname, `/${locale}`)?.filter(
     (m) => m.route.lazy
   )
 

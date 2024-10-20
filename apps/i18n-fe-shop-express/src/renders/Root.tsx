@@ -2,11 +2,13 @@ import { PropsWithChildren, StrictMode } from 'react'
 import { HelmetProvider, Helmet, HelmetServerState } from 'react-helmet-async'
 
 import { isDevMode } from '@/constants/env'
+import { NationConfig } from '@/types'
 
 import '@/assets/styles/themes/index.scss'
 
 interface RootProps {
-  lang: string
+  /** 国家配置 */
+  nationConfig: NationConfig
   /** seo meta等信息 */
   helmetContext?: { helmet?: HelmetServerState }
 }
@@ -25,14 +27,12 @@ if (!isDevMode) {
 }
 
 export function Root(props: PropsWithChildren<RootProps>) {
-  const { lang, children, helmetContext } = props
+  const { nationConfig, children, helmetContext } = props
   // TODO: 注入一些context全局上下文
-
-  // const { t: get } = useTranslation()
 
   return (
     <HelmetProvider context={helmetContext}>
-      <Helmet prioritizeSeoTags htmlAttributes={{ lang, 'data-lang': lang }}>
+      <Helmet prioritizeSeoTags htmlAttributes={{ 'data-locale': nationConfig.locale }}>
         <title>ssr</title>
         <meta name="description" content="A simple React app with server-side rendering" />
       </Helmet>

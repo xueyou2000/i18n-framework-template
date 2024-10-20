@@ -4,11 +4,11 @@ import { join } from 'node:path'
 import { __dirname, serverRenderExpress, getCurrentLanguage } from './ssr-base.mjs'
 
 const serverRender = (serverAPI) => async (req, res, next) => {
-  const lang = getCurrentLanguage(req.url)
+  const locale = getCurrentLanguage(req.url)
   const SSRRenderModule = await serverAPI.environments.ssr.loadBundle('index')
 
   serverRenderExpress(req, res, next, SSRRenderModule, async () => {
-    const template = await serverAPI.environments.web.getTransformedHtml(lang)
+    const template = await serverAPI.environments.web.getTransformedHtml(locale)
     return template
   })
 }

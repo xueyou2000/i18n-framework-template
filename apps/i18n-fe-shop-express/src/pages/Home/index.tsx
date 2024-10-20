@@ -1,4 +1,5 @@
 import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
@@ -20,11 +21,13 @@ export const loader = async (args: LoaderFunctionArgs): Promise<LoaderData> => {
 
 export default function Home() {
   const data = useLoaderData() as LoaderData
+  const { t } = useTranslation()
 
   return (
     <div className="home-page">
       <h1>Home {data?.date}</h1>
       <p>预加载数据 {data?.url}</p>
+      <p>国际化: {t('hello')}</p>
       <p>Home page</p>
       <p>Home page</p>
       <p>Home page</p>

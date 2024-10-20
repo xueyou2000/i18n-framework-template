@@ -8,12 +8,11 @@ import {
   StaticHandlerContext,
   StaticRouterProvider
 } from 'react-router-dom/server'
-
-import { NationConfig, RouteCommonProps } from '@/types'
-import { isMatchRoute } from '@/utils'
-
 import i18next from 'i18next'
 import { I18nextProvider } from 'react-i18next'
+
+import { RouteCommonProps } from '@/types'
+import { initI18nSSR, isMatchRoute } from '@/utils'
 
 import { Root } from './Root'
 
@@ -27,31 +26,32 @@ export interface SSRRenderProps extends RouteCommonProps {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest: any }) {
-  const { lang, fetchRequest, helmetContext } = props
+  const { locale, fetchRequest, helmetContext } = props
 
   try {
-    const moduleConfig = await import(`../locals/${lang}/nation.config`)
-    const nationConfig = moduleConfig.nationConfig as NationConfig
+    const moduleConfig = await import(`../locals/${locale}/nation.config`)
+    const { nationConfig, nationRoutes } = moduleConfig
 
-    const handler = createStaticHandler(nationConfig.routes, { basename: `/${lang}` })
+    const handler = createStaticHandler(nationRoutes, { basename: `/${locale}` })
     const context = (await handler.query(fetchRequest)) as StaticHandlerContext
     const router = createStaticRouter(handler.dataRoutes, context)
 
-    // const currentLocale = nationConfig.lang
-    // const bundledResources = {
-    //   [currentLocale]: {
-    //     translation: require(`./../translation/${currentLocale}.json`)
-    //   }
-    // }
-    // initI18nSSR(currentLocale, bundledResources)
+    const lang = nationConfig.lang
+    const bundledResources = {
+      [lang]: {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        translation: require(`../locals/${locale}/translation.json`)
+      }
+    }
+    await initI18nSSR(lang, bundledResources)
     // const { t: get } = useTranslation()
 
-    // require(`dayjs/locale/${nationConfig.dayjsLocal}`)
-    // dayjs.locale(nationConfig.dayjsLocal)
+    // require(`dayjs/locale/${nationRoutesConfig.dayjsLocal}`)
+    // dayjs.locale(nationRoutesConfig.dayjsLocal)
 
     return renderToString(
       <I18nextProvider i18n={i18next}>
-        <Root lang={lang} helmetContext={helmetContext}>
+        <Root nationConfig={nationConfig} helmetContext={helmetContext}>
           <StaticRouterProvider router={router} context={context}></StaticRouterProvider>
         </Root>
       </I18nextProvider>
@@ -66,20 +66,20 @@ export async function renderHTMLByRequest(props: SSRRenderProps & { fetchRequest
  * MemoryRouter方式ssr渲染
  */
 export async function renderHTMLByMemoryRouter(props: SSRRenderProps) {
-  const { url, lang, helmetContext } = props
+  const { url, locale, helmetContext } = props
 
   try {
-    const moduleConfig = await import(`../locals/${lang}/nation.config`)
-    const nationConfig = moduleConfig.nationConfig as NationConfig
+    const moduleConfig = await import(`../locals/${locale}/nation.config`)
+    const { nationConfig, nationRoutes } = moduleConfig
 
-    const router = createMemoryRouter(nationConfig.routes, {
-      basename: `/${lang}`,
+    const router = createMemoryRouter(nationRoutes, {
+      basename: `/${locale}`,
       initialEntries: ['/', url],
       initialIndex: 1
     })
 
     return await renderHtmlPromise(
-      <Root lang={lang} helmetContext={helmetContext}>
+      <Root nationConfig={nationConfig} helmetContext={helmetContext}>
         <RouterProvider router={router}></RouterProvider>
       </Root>
     )

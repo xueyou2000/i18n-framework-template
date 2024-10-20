@@ -8,13 +8,13 @@ import ICU from 'i18next-icu'
 /**
  * 初始化i18n
  * @param local 站点(国家-语言)
- * @param locale 默认语言
+ * @param lang 默认语言
  * @param resources 本地翻译资源
  * @param callback 回调
  */
-export function initI18n(
-  local: string,
+export function initI18nClient(
   locale: string,
+  lang: string,
   resources: Resource,
   callback?: () => void
 ) {
@@ -27,8 +27,8 @@ export function initI18n(
     .use(initReactI18next)
     .init(
       {
-        lng: locale,
-        fallbackLng: locale, // 使用当前站点默认语言包作为 fallback 取值
+        lng: lang,
+        fallbackLng: 'en-US', // 使用当前站点默认语言包作为 fallback 取值
         load: 'currentOnly', // 禁止加载根语言包，en-US 不会额外加载 en.json
         // debug      : true, // 调试模式
         backend: {
@@ -38,9 +38,9 @@ export function initI18n(
           ],
           backendOptions: [
             {
-              loadPath: 'https://www.cdn.com/cwms-translate-language/i18n-fe_{{lng}}.json',
+              loadPath: 'https://www.cdn.com/translate-language/i18n-fe_{{lng}}.json',
               parse: (data: string) =>
-                Object.assign({}, resources[locale].translation, JSON.parse(data || '{}')),
+                Object.assign({}, resources[lang].translation, JSON.parse(data || '{}')),
               requestOptions: {
                 cache: 'no-store'
               }
@@ -83,15 +83,13 @@ export function initI18n(
 /**
  * 初始化i18n，用于服务端
  */
-export function initI18nSSR(locale: string, resources: Resource): void {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const i18next = require('i18next')
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const i18nextICU = require('i18next-icu')
+export async function initI18nSSR(lang: string, resources: Resource) {
+  const i18next = await import('i18next')
+  const i18nextICU = await import('i18next-icu')
 
-  i18next.use(i18nextICU).use(initReactI18next).init({
-    lng: locale,
-    fallbackLng: locale, // 使用当前站点默认语言包作为 fallback 取值
+  i18next.use(i18nextICU.default).use(initReactI18next).init({
+    lng: lang,
+    fallbackLng: 'en-US', // 使用当前站点默认语言包作为 fallback 取值
     load: 'currentOnly', // 禁止加载根语言包，en-US 不会额外加载 en.json
     resources // 直接读取本地静态翻译资源进行 HTML 文件的渲染
   })

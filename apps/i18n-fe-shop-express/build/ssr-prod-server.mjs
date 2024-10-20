@@ -6,12 +6,12 @@ import { readFile } from 'node:fs/promises'
 import { __dirname, require, serverRenderExpress, getCurrentLanguage } from './ssr-base.mjs'
 
 const serverRender = async (req, res, next) => {
-  const lang = getCurrentLanguage(req.url)
+  const locale = getCurrentLanguage(req.url)
   const moduleUrl = join(__dirname, '../dist/server/index.js')
   const SSRRenderModule = require(moduleUrl)
 
   serverRenderExpress(req, res, next, SSRRenderModule, async () => {
-    const template = await readFile(join(__dirname, `../dist/${lang}/index.html`), 'utf-8')
+    const template = await readFile(join(__dirname, `../dist/${locale}/index.html`), 'utf-8')
     return template
   })
 }
