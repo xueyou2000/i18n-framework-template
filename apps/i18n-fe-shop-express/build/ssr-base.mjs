@@ -64,8 +64,8 @@ export async function serverRenderExpress(
   const html = await serverRender(fetchRequest, SSRRenderModule, getHtmlTemplate)
   if (html) {
     const pathname = request.url
-    const lang = getCurrentLanguage(pathname)
-    consola.success(`服务端渲染成功: lang=${lang} pathname=${pathname}`)
+    const local = getCurrentLanguage(pathname)
+    consola.success(`服务端渲染成功: local=${local} pathname=${pathname}`)
     response.status(200).set({ 'Content-Type': 'text/html' }).send(html)
   } else {
     next()

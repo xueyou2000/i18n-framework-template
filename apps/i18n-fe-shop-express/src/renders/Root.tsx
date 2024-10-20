@@ -1,6 +1,7 @@
 import { PropsWithChildren, StrictMode } from 'react'
 import { HelmetProvider, Helmet, HelmetServerState } from 'react-helmet-async'
 
+import { GlobalContext } from '@/context'
 import { isDevMode } from '@/constants/env'
 import { NationConfig } from '@/types'
 
@@ -28,7 +29,6 @@ if (!isDevMode) {
 
 export function Root(props: PropsWithChildren<RootProps>) {
   const { nationConfig, children, helmetContext } = props
-  // TODO: 注入一些context全局上下文
 
   return (
     <HelmetProvider context={helmetContext}>
@@ -36,7 +36,9 @@ export function Root(props: PropsWithChildren<RootProps>) {
         <title>ssr</title>
         <meta name="description" content="A simple React app with server-side rendering" />
       </Helmet>
-      <StrictMode>{children}</StrictMode>
+      <StrictMode>
+        <GlobalContext.Provider value={{ nationConfig }}>{children}</GlobalContext.Provider>
+      </StrictMode>
     </HelmetProvider>
   )
 }
