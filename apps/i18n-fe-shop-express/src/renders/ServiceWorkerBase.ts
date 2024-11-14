@@ -36,6 +36,8 @@ export function initServiceWorker(
         // 取出缓存中的所有数据
         const cacheData = await cache.keys()
 
+        console.log('>>> cacheData', cacheData)
+
         // 过滤数据中不包含当前版本号路径的文件
         const otherVersionFiles = cacheData.filter((cacheItem) => {
           // cnd缓存不清除
@@ -67,7 +69,16 @@ export function initServiceWorker(
   /**
    * 预缓存列表（ __WB_MANIFEST 由 workbox 在 webpack 打包阶段生成 ）
    */
-  precacheAndRoute((self.__WB_MANIFEST || []).concat([]), {
+  let cacheFiles = self.__WB_MANIFEST || []
+  // 过滤html文件, 仅为了本地调试
+  cacheFiles = cacheFiles.filter((file) => {
+    if (typeof file === 'string') {
+      return !file.endsWith('.html')
+    } else {
+      return !file?.url?.endsWith('.html')
+    }
+  })
+  precacheAndRoute(cacheFiles, {
     ignoreURLParametersMatching: [/.*/], // 忽略所有 URL 参数。这意味着无论 URL 中包含什么参数，都会匹配到缓存中的资源
     cleanURLs: false // 通常用于去除 URL 中的查询参数，但这在这里没有启用
   })
