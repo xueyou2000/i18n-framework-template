@@ -2,7 +2,7 @@ import { BaseConfig } from '@framework/build'
 import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core'
 import { consola } from 'consola'
 
-import { BUILD_MANIFEST_NAME, CLIENT_ASSET_PREFIX, DEFAULT_HTML, MANIFEST_NAME, SSR_RENDER_FILE, VERSION, VERSION_TIME } from './constants'
+import { BUILD_MANIFEST_NAME, CLIENT_ASSET_PREFIX, DEFAULT_HTML, MANIFEST_NAME, SSR_RENDER_FILE, VERSION } from './constants'
 import { getEntries, localInfoArray, localInfoMap } from './utils'
 
 const config = defineConfig({
@@ -11,8 +11,7 @@ const config = defineConfig({
       source: {
         entry: getEntries(localInfoMap),
         define: {
-          'process.env.VERSION': JSON.stringify(`${VERSION}`),
-          'process.env.VERSION_TIME': JSON.stringify(`${VERSION_TIME}`)
+          'process.env.VERSION': JSON.stringify(`${VERSION}`)
         }
       },
       output: {
