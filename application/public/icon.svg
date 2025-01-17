@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 工具箱主体 -->
+  <rect x="56" y="128" width="400" height="300" rx="24" fill="#2D3748"/>
+  <rect x="96" y="88" width="320" height="40" rx="12" fill="#4A5568"/>
+  
+  <!-- 工具箱把手 -->
+  <rect x="216" y="98" width="80" height="20" rx="10" fill="#718096"/>
+  
+  <!-- 代码符号装饰 -->
+  <path d="M186 258L146 298L186 338" stroke="#38B2AC" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M326 258L366 298L326 338" stroke="#38B2AC" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M276 238L236 358" stroke="#F6AD55" stroke-width="24" stroke-linecap="round"/>
+</svg> 

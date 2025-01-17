@@ -1,0 +1,97 @@
+@mixin triangle($width, $height, $color, $direction) {
+  $width: $width / 2;
+  $color-border-style: $height solid $color;
+  $transparent-border-style: $width solid transparent;
+
+  width: 0;
+  height: 0;
+
+  @if $direction == 'up' {
+    border-right: $transparent-border-style;
+    border-bottom: $color-border-style;
+    border-left: $transparent-border-style;
+  } @else if $direction == 'right' {
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+    border-left: $color-border-style;
+  } @else if $direction == 'down' {
+    border-top: $color-border-style;
+    border-right: $transparent-border-style;
+    border-left: $transparent-border-style;
+  } @else if $direction == 'left' {
+    border-top: $transparent-border-style;
+    border-right: $color-border-style;
+    border-bottom: $transparent-border-style;
+  }
+}
+
+/*
+  超过指定行数，使用省略号展示
+ */
+@mixin ellipsis-text($lines: 2, $direction: vertical) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  /* stylelint-disable */
+  /* autoprefixer: off */
+  display: box;
+  display: -webkit-box;
+  -webkit-box-orient: $direction;
+  -webkit-line-clamp: $lines;
+  /* stylelint-enable */
+}
+
+/*
+  Hover样式 - 卡片阴影
+ */
+@mixin hover-card-shadow($disable-transition: false) {
+  @if $disable-transition != true {
+    transition: box-shadow ease 0.25s;
+  }
+
+  &:hover {
+    @include responsive(
+      (
+        'box-shadow': (
+          null,
+          0 v4(6) v4(14) 0 rgba(0, 0, 0, 0.08),
+          0 v4(6) v4(14) 0 rgba(0, 0, 0, 0.08),
+          0 6px 14px 0 rgba(0, 0, 0, 0.08),
+          0 6px 14px 0 rgba(0, 0, 0, 0.08)
+        )
+      )
+    );
+  }
+}
+
+/*
+  隐藏滚动条
+ */
+@mixin hide-scrollbar {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Internet Explorer 10+ */
+  --ms-overflow-style: none;
+
+  /* WebKit */
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
+@mixin scroll-bar {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 14px;
+  }
+}

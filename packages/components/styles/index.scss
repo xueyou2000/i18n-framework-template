@@ -1,0 +1,16 @@
+@use 'light' as light;
+@use 'dark' as dark;
+
+:root {
+  @include light.theme-vars;
+}
+
+html[data-theme='auto'] {
+  @media (prefers-color-scheme: dark) {
+    @include dark.theme-vars;
+  }
+}
+
+html[data-theme='dark'] {
+  @include dark.theme-vars;
+}

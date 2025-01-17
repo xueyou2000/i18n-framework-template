@@ -1,0 +1,70 @@
+{
+  "name": "@packages/components",
+  "version": "0.0.1",
+  "description": "React Components",
+  "author": "XueYou",
+  "license": "ISC",
+  "packageManager": "pnpm@9.0.0",
+  "main": "./src/index.ts",
+  "module": "./dist/esm/index.mjs",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "lint": "npm run lint:eslint && npm run lint:stylelint",
+    "lint:eslint": "eslint .",
+    "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass}",
+    "storybook": "storybook dev",
+    "build:storybook": "storybook build"
+  },
+  "keywords": [
+    "React",
+    "Components"
+  ],
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.6.7"
+  },
+  "stylelint": {
+    "extends": "../../framework/lint-set/stylelint.config.mjs",
+    "ignorePath": "../../framework/lint-set/.stylelintignore"
+  },
+  "devDependencies": {
+    "@framework/build": "workspace:^",
+    "@framework/lint-set": "workspace:^",
+    "@rsbuild/plugin-react": "^1.1.0",
+    "@rsbuild/plugin-sass": "^1.1.2",
+    "@rslib/core": "^0.3.1",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/addon-links": "^8.4.7",
+    "@storybook/addon-onboarding": "^8.4.7",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/test": "^8.4.7",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "storybook": "^8.4.7",
+    "storybook-addon-rslib": "^0.1.8",
+    "storybook-react-rsbuild": "^0.1.8"
+  },
+  "peerDependencies": {
+    "classnames": "^2.5.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "typescript": "^5.7.2"
+  }
+}

@@ -8,8 +8,7 @@
 **/*.sh
 
 /public/*
-/dist-prod/*
-/dist-dev/*
+/dist/*
 
 # Lock files
 package-lock.json

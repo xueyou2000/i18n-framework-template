@@ -1,0 +1,39 @@
+@use 'light' as light;
+@use 'dark' as dark;
+
+:root {
+  // 主要文本 (16-18px)
+  --text-base: clamp(1rem, 1rem + 0.2vw, 1.125rem);
+
+  // 小号文本 (14-16px)
+  --text-sm: clamp(0.875rem, 0.875rem + 0.1vw, 1rem);
+
+  // 大号文本 (18-20px)
+  --text-lg: clamp(1.125rem, 1.125rem + 0.3vw, 1.25rem);
+
+  // 标题文本
+  --text-h1: clamp(2rem, 2rem + 1.5vw, 3rem); // 32-48px
+  --text-h2: clamp(1.75rem, 1.75rem + 0.8vw, 2.5rem); // 28-40px
+  --text-h3: clamp(1.5rem, 1.5rem + 0.5vw, 2rem); // 24-32px
+
+  @include light.theme-vars;
+}
+
+html[data-theme='auto'] {
+  @media (prefers-color-scheme: dark) {
+    @include dark.theme-vars;
+  }
+}
+
+html[data-theme='dark'] {
+  @include dark.theme-vars;
+}
+
+body {
+  color: var(--text-base);
+  hyphens: auto;
+  background-color: var(--bg-base);
+  transition: 0.3s ease-out;
+  font-display: swap;
+  accent-color: var(--color-primary);
+}

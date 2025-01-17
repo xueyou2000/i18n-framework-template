@@ -1,0 +1,66 @@
+@use '@/assets/styles/mixins' as *;
+
+.performance-contrast-page {
+  .count-btn {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    color: var(--text-base);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .list {
+    margin-block: 20px;
+    color: var(--text-secondary);
+    list-style: circle;
+    list-style-position: inside;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .flex-1 {
+      box-sizing: border-box;
+      min-width: 500px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+    }
+  }
+
+  .common-tab-style {
+    .tab-list {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .tab-item {
+      padding: 10px 20px;
+      color: var(--text-base);
+      background-color: var(--bg-secondary);
+      border-radius: 10px;
+      cursor: pointer;
+
+      &.active {
+        color: var(--color-primary);
+        background: transparent;
+      }
+
+      &.pending {
+        opacity: 0.5;
+      }
+    }
+
+    .tab-content {
+      margin-top: 10px;
+    }
+  }
+}

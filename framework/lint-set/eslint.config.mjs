@@ -17,7 +17,7 @@ export default defineFlatConfig([
     {
       ...react,
       settings: {
-        pluginReact: { version: 'detect' }
+        react: { version: 'detect' }
       }
     },
     reactJsx
@@ -33,7 +33,14 @@ export default defineFlatConfig([
       semi: ['error', 'never'], // 不在语句末尾使用分号
       '@typescript-eslint/explicit-function-return-type': 'off', // 关闭显式函数返回类型检查
       '@typescript-eslint/explicit-module-boundary-types': 'off', // 关闭显式模块边界类型检查
-      'prettier/prettier': 'error' // 将 Prettier 规则作为错误处理
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true,
+          jsxSingleQuote: true
+        }
+      ],
+      'jsx-quotes': ['error', 'prefer-single']
     }
   },
   { ignores: ['dist/', '**/dist/', 'node_modules', '**/node_modules/'] }

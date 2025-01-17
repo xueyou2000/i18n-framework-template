@@ -4,6 +4,8 @@
     "esbenp.prettier-vscode",
     "stylelint.vscode-stylelint",
     "editorconfig.editorconfig",
-    "mrmlnc.vscode-scss"
+    "mrmlnc.vscode-scss",
+    "streetsidesoftware.code-spell-checker",
+    "EditorConfig.EditorConfig"
   ]
 }

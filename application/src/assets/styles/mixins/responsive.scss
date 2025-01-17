@@ -1,0 +1,257 @@
+/* stylelint-disable scss/no-global-function-names */
+@use 'sass:math';
+
+/*
+  文本方向
+*/
+$use-container-mixin: false !default; // 根据需要设置为 true 或 false
+
+@mixin ltr-and-rtl($property, $ltr-value, $rtl-value) {
+  #{$property}: $ltr-value;
+
+  [dir='rtl'] & {
+    #{$property}: $rtl-value;
+  }
+}
+
+/*
+  ## 属性对应的参数（mobile, tablet, laptop, desktop, widescreen）
+  ## mobile: 请将设计稿的宽度设置为 360px ~ 720px 后再取值
+  ## tablet: 请使用 1024px ~ 1440px 宽度的设计稿
+  ## laptop: 请使用 1440px ~ 1920px 宽度的设计稿
+  ## desktop: 请使用宽度为 1920px ~ 2560px 的设计稿
+  ## widescreen: 请使用宽度为 2560px ~ max 的设计稿
+  ## 如不需要此参数，传入 null 占位即可
+  ## 使用方法：
+    @include responsive((
+      'width': (86%, 84%, 80%, 1200px, 2560px),
+      'color': (red, orange, green, white, blue),
+      'font-size': (12px, 14px, 16px, 18px, 20px),
+      'position': (absolute, null, null, null, null),
+      'right': (8px, 32px, -32px, -32px, -32px, 'ltr'), // 仅在 ltr 启用
+      'left': (8px, 32px, -32px, -32px, -32px, 'rtl'), // 仅在 rtl 启用
+    ));
+*/
+@mixin responsive($properties) {
+  $keys: map-keys(
+    $map: $properties
+  );
+  $mobile-values: ();
+  $tablet-values: ();
+  $laptop-values: ();
+  $desktop-values: ();
+  $widescreen-values: ();
+
+  // 将配置参数聚合，写一个过渡属性
+  // transition: #{$keys} ease 0.25s; // 需要的地方自行添加
+
+  // 整理各端样式
+  @each $property, $values in $properties {
+    @if length($values) == 6 {
+      $mobile-values: append($mobile-values, ($property, nth($values, 1), nth($values, 6)));
+      $tablet-values: append($tablet-values, ($property, nth($values, 2), nth($values, 6)));
+      $laptop-values: append($laptop-values, ($property, nth($values, 3), nth($values, 6)));
+      $desktop-values: append($desktop-values, ($property, nth($values, 4), nth($values, 6)));
+      $widescreen-values: append($widescreen-values, ($property, nth($values, 5), nth($values, 6)));
+      /* stylelint-disable-next-line at-rule-empty-line-before */
+    } @else {
+      $mobile-values: append($mobile-values, ($property, nth($values, 1), null));
+      $tablet-values: append($tablet-values, ($property, nth($values, 2), null));
+      $laptop-values: append($laptop-values, ($property, nth($values, 3), null));
+      $desktop-values: append($desktop-values, ($property, nth($values, 4), null));
+      $widescreen-values: append($widescreen-values, ($property, nth($values, 5), null));
+    }
+  }
+
+  // 在当前范围内输出样式
+  @include mobile {
+    @each $property, $value, $isRtl in $mobile-values {
+      @if $property == 'font-size' {
+        #{$property}: #{$value};
+      }
+
+      @include output-style($property, $value, $isRtl);
+    }
+  }
+
+  @include tablet {
+    @each $property, $value, $isRtl in $tablet-values {
+      @include output-style($property, $value, $isRtl);
+    }
+  }
+
+  @include laptop {
+    @each $property, $value, $isRtl in $laptop-values {
+      @include output-style($property, $value, $isRtl);
+    }
+  }
+
+  @include desktop {
+    @each $property, $value, $isRtl in $desktop-values {
+      @include output-style($property, $value, $isRtl);
+    }
+  }
+
+  @include widescreen {
+    @each $property, $value, $isRtl in $widescreen-values {
+      @include output-style($property, $value, $isRtl);
+    }
+  }
+}
+
+/*
+  各终端处理函数
+*/
+@mixin output-style($property, $value, $is-rtl) {
+  $result: minimum($property, $value);
+
+  @if $result {
+    @if $is-rtl == 'rtl' {
+      [dir='rtl'] & {
+        #{$property}: $result;
+      }
+    } @else if $is-rtl == 'ltr' {
+      [dir='ltr'] & {
+        #{$property}: $result;
+      }
+    } @else {
+      #{$property}: $result;
+    }
+  }
+}
+
+/*
+  处理字号最小值
+*/
+@function minimum($property, $value) {
+  $result: $value;
+
+  @if $property == 'font-size' and $value and unit($value) == 'vw' and not $use-container-mixin {
+    $result: unquote('max(#{$value}, 12px)');
+  }
+
+  @return $result;
+}
+
+/*
+  ##Device = Smartphones Mobiles (portrait)
+  ## 因无法聚合样式，只在覆盖特定参数时使用
+*/
+@mixin mobile {
+  @if $use-container-mixin {
+    @container perview (max-width: 360px) {
+      @content;
+    }
+  } @else {
+    @media screen and (width <= 720px) {
+      @content;
+    }
+  }
+}
+
+/*
+  ##Device = Tablets, iPads (landscape)
+  ## 因无法聚合样式，只在覆盖特定参数时使用
+*/
+@mixin tablet {
+  @if $use-container-mixin {
+    @container perview (min-width: 361px) and (max-width: 512px) {
+      @content;
+    }
+  } @else {
+    @media screen and (width >= 721px) and (width <= 1024px) {
+      @content;
+    }
+  }
+}
+
+/*
+  ##Device = Laptops, Desktops
+  ## 因无法聚合样式，只在覆盖特定参数时使用
+*/
+@mixin laptop {
+  @if $use-container-mixin {
+    @container perview (min-width: 513px) and (max-width: 720px) {
+      @content;
+    }
+  } @else {
+    @media screen and (width >= 1025px) and (width <= 1440px) {
+      @content;
+    }
+  }
+}
+
+/*
+  ##Device = Desktops (normal resolution)
+  ## 因无法聚合样式，只在覆盖特定参数时使用
+*/
+@mixin desktop {
+  @if $use-container-mixin {
+    @container perview (min-width: 721px) and (max-width: 960px) {
+      @content;
+    }
+  } @else {
+    @media screen and (width >= 1441px) and (width <= 1920px) {
+      @content;
+    }
+  }
+}
+
+/*
+  ##Device = Desktops (higher resolution)
+  ## 因无法聚合样式，只在覆盖特定参数时使用
+*/
+@mixin widescreen {
+  @if $use-container-mixin {
+    @container perview (min-width: 961px) {
+      @content;
+    }
+  } @else {
+    @media screen and (width >= 1921px) {
+      @content;
+    }
+  }
+}
+
+/*
+  px 转换 vw 函数
+ */
+@function v1($px) {
+  @if $use-container-mixin {
+    @return math.div($px, 360) * 100cqw;
+  } @else {
+    @return math.div($px, 360) * 100vw;
+  }
+}
+
+@function v2($px) {
+  @if $use-container-mixin {
+    @return math.div($px, 1024) * 100cqw;
+  } @else {
+    @return math.div($px, 1024) * 100vw;
+  }
+}
+
+@function v3($px) {
+  @if $use-container-mixin {
+    @return math.div($px, 1440) * 100cqw;
+  } @else {
+    @return math.div($px, 1440) * 100vw;
+  }
+}
+
+@function v4($px) {
+  @if $use-container-mixin {
+    @return math.div($px, 1920) * 100cqw;
+  } @else {
+    @return math.div($px, 1920) * 100vw;
+  }
+}
+
+@function v5($px) {
+  @if $use-container-mixin {
+    @return math.div($px, 2560) * 100cqw;
+  } @else {
+    @return math.div($px, 2560) * 100vw;
+  }
+}

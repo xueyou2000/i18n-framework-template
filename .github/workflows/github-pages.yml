@@ -36,10 +36,13 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm i
 
       - name: Build
-        run: pnpm build-github-pages
+        run: pnpm build:github
+
+      - name: Build SSR
+        run: pnpm build:ssr:github
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -47,7 +50,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './apps/i18n-fe-shop-express/dist'
+          path: './application/dist'
 
       - name: Deploy to GitHub Pages
         id: deployment

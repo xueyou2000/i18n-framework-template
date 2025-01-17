@@ -1,37 +1,40 @@
 {
-  "private": true,
+  "private": false,
   "name": "i18n-framework-template",
-  "version": "0.0.2",
-  "description": "一个国际化的react项目框架",
+  "version": "0.0.3",
+  "description": "react+react-router项目模板",
   "author": "XueYou",
   "license": "ISC",
   "packageManager": "pnpm@9.0.0",
   "scripts": {
-    "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
+    "prepare": "husky",
     "postinstall": "turbo stub",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md,css,scss}\"",
+    "lint": "npm run lint:eslint && npm run lint:stylelint",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint ./**/*.{scss,css,less,sass}",
-    "lint": "npm run lint:eslint && npm run lint:stylelint",
-    "dev:i18n-fe-shop-express": "turbo run dev --filter=@app/i18n-fe-shop-express",
     "dev": "turbo dev --log-prefix=none",
-    "build:i18n-fe-shop-express": "turbo build --filter=@app/i18n-fe-shop-express",
-    "build-github-pages": "turbo build-github-pages --filter=@app/i18n-fe-shop-express",
-    "build": "turbo build --log-prefix=none"
+    "dev:ssr": "turbo dev:ssr --log-prefix=none",
+    "build": "turbo build --log-prefix=none",
+    "build:ssr": "turbo build:ssr --log-prefix=none",
+    "build:github": "turbo build:github --log-prefix=none",
+    "build:ssr:github": "turbo build:ssr:github --log-prefix=none",
+    "preview": "turbo preview --log-prefix=none",
+    "analyze": "turbo analyze --log-prefix=none"
   },
-  "files": [
-    "lib",
-    "package.json",
-    "tsconfig.json",
-    "README.md"
-  ],
   "keywords": [
     "TurboRepo",
-    "TypeScript"
+    "TypeScript",
+    "React",
+    "React-Router",
+    "Template"
   ],
   "branchlint": {
     "allowed": [
       "master",
+      "main",
       "test",
+      "dev",
       "next",
       "preonline"
     ],
@@ -59,34 +62,29 @@
     ]
   },
   "commitlint": {
-    "extends": "./commitlint.config.mjs"
-  },
-  "eslintConfig": {
-    "extends": "./eslint.config.mjs"
+    "extends": "./framework/lint-set/commitlint.config.mjs"
   },
   "stylelint": {
-    "extends": "./stylelint.config.mjs",
-    "ignorePath": "./.stylelintignore",
-    "ignoreFiles": "/..stylelintignore"
+    "extends": "./framework/lint-set/stylelint.config.mjs",
+    "ignorePath": "./framework/lint-set/.stylelintignore"
   },
   "engines": {
     "node": ">=18.17.0",
     "npm": ">=9.6.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@framework/lint-set": "workspace:^",
+    "@types/node": "^22.10.5",
     "branchlint": "^0.0.2",
-    "env-cmd": "^10.1.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "postcss": "^8.4.47",
-    "postcss-scss": "^4.0.9",
-    "stylelint": "^16.9.0",
-    "stylelint-config-rational-order": "^0.1.2",
-    "stylelint-config-standard-scss": "^13.1.0",
-    "stylelint-prettier": "^5.0.2",
-    "turbo": "^2.1.2"
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "stylelint": "^16.12.0",
+    "turbo": "^2.3.3"
+  },
+  "dependencies": {
+    "typescript": "^5.7.2"
   }
 }

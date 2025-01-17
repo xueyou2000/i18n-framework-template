@@ -1,23 +1,25 @@
 {
   "name": "@framework/build",
-  "description": "RsBuild tool for React project",
   "version": "0.0.1",
+  "description": "RsBuild tool for React project",
+  "author": "XueYou",
+  "license": "ISC",
+  "packageManager": "pnpm@9.0.0",
   "main": "index.ts",
   "type": "module",
-  "license": "MIT",
-  "scripts": {
-    "lint": "eslint ."
-  },
   "files": [
     "rsbuild-base-config.ts",
     "index.ts",
     "README.md"
   ],
+  "scripts": {
+    "lint": "eslint ."
+  },
   "devDependencies": {
-    "@framework/lint-set": "workspace:^",
-    "@framework/config-ts": "workspace:^"
+    "@framework/lint-set": "workspace:^"
   },
   "peerDependencies": {
+    "typescript": "^5.7.2",
     "@rsbuild/core": "^1.0.13",
     "@rsbuild/plugin-react": "^1.0.3",
     "@rsbuild/plugin-sass": "^1.0.1",

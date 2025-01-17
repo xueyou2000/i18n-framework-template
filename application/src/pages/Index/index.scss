@@ -1,0 +1,15 @@
+@use '@/assets/styles/mixins' as *;
+
+.index-page {
+  color: var(--text-base);
+  font-size: var(--text-base);
+
+  h2 {
+    margin-block: 0.5em;
+  }
+
+  ul {
+    list-style: disc;
+    list-style-position: inside;
+  }
+}

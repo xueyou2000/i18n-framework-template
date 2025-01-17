@@ -1,0 +1,30 @@
+@mixin theme-vars {
+  // 主要颜色
+  --color-primary: #4a90e2;
+  --color-secondary: #50e3c2;
+  --color-success: #7ed321;
+  --color-danger: #d0021b;
+  --color-warning: #f5a623;
+  --color-info: #4a90e2;
+
+  // 背景色
+  --bg-base: #1c1c1c;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #3a3a3a;
+
+  // 文字颜色
+  --text-base: #e0e0e0;
+  --text-secondary: #fff;
+  --text-tertiary: #b0b0b0;
+
+  // 边框颜色
+  --border-color: #424242;
+  --border-color-light: #303030;
+
+  // 基础色
+  --color-light: #2a2a2a;
+  --color-dark: #f8f9fa;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray: #8c959d;
+}

@@ -1,4 +1,5 @@
 {
+  "files.eol": "\n",
   "stylelint.enable": true,
   "stylelint.validate": ["css", "less", "scss"],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "json"],
@@ -8,7 +9,26 @@
     "source.fixAll.stylelint": "always",
     "source.fixAll.eslint": "always"
   },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "files.exclude": {
     "**/.turbo": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

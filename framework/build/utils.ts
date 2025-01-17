@@ -6,18 +6,7 @@
 export function getArgv(option: string, prefix = '') {
   const args = process.argv.slice(2)
   // const prefix = option.startsWith('-') ? '' : '--'
-  return args
-    .find((arg) => arg.startsWith(`${prefix}${option}=`))
-    ?.replace(`${prefix}${option}=`, '')
-}
-
-/**
- * 解析国家数组
- * @param localStr 本地配置字符串,  例如: "in,jp,kh,kh-en"
- */
-export function parseLocals(localStr?: string) {
-  if (!localStr) return []
-  return localStr.split(',').map((item) => item.trim())
+  return args.find((arg) => arg.startsWith(`${prefix}${option}=`))?.replace(`${prefix}${option}=`, '')
 }
 
 /**

@@ -6,16 +6,32 @@
       "outputs": ["dist/**"],
       "cache": true
     },
-    "build-github-pages": {
+    "build:github": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "build:ssr:github": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"],
       "cache": true
     },
     "preview": {},
+    "analyze": {},
+    "dev:ssr": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "build:ssr": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
     "lint": {},
     "stub": {},
     "dev": {
-      "cache": true
+      "cache": false,
+      "dependsOn": ["^build"]
     }
   }
 }
