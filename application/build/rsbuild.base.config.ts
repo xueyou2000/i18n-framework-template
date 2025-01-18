@@ -90,6 +90,25 @@ const config = defineConfig({
     alias: {
       '@': './src'
     }
+  },
+  tools: {
+    rspack: {
+      module: {
+        rules: [
+          {
+            // 这种方式没法更好的兼容服务端渲染, 所以放弃
+            test: /\.(?:js|jsx|mjs|cjs|ts|tsx|mts|cts)$/,
+            type: 'javascript/auto',
+            include: [/src/],
+            use: [
+              {
+                loader: require.resolve('./plugins/TranslateLoader.mjs')
+              }
+            ]
+          }
+        ]
+      }
+    }
   }
 })
 

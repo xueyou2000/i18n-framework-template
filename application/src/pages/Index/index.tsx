@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { LoaderFunctionArgs, useLoaderData } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import { VERSION } from '@/constants/env'
 import { useAppContext } from '@/context/AppContext'
@@ -41,7 +41,7 @@ function ToggleTheme() {
 
 export default function Index() {
   const data = useLoaderData() as LoaderData
-  const { t } = useTranslation()
+  const intl = useTranslation()
 
   useEffect(() => {
     console.log('版本: ', VERSION)
@@ -55,7 +55,7 @@ export default function Index() {
 
       <main>
         <h1>主页</h1>
-        <p>国际化: {t('hello')}</p>
+        <p>国际化: {intl.t('hello')}</p>
         <section>
           <p>获取loader数据: {JSON.stringify(data || {})}</p>
           <BuggyCounter />

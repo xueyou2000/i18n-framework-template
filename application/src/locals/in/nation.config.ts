@@ -4,7 +4,7 @@ import { RouteObject } from 'react-router'
 
 export const nationConfig: NationConfig = {
   locale: 'in',
-  lang: 'in-EN',
+  lang: 'en-IN',
   countryName: 'India',
   countryTwoLetterCode: 'in',
   capital: 'New Delhi',

@@ -42,6 +42,7 @@
 - [x] 增加service-worker, manifest
 - [x] 主动构建全部页面, 发布github pages
 - [ ] 实现类似于`webpack.DllPlugin`和`webpack.DllReferencePlugin`的插件
+- [ ] 动态切换语言, 加载语言资源
 
 ## 使用方式
 
@@ -55,8 +56,7 @@ pnpm i
 
 默认端口8080, 访问 http://localhost:8080
 
-> 📣 你可以注意到启动后, 网络面板会显示 https://www.cdn.com/translate-language/i18n-fe_zh-CN.json 和 https://www.cdn.com/translate-language/i18n-fe_en-US.json 加载失败
-> 这是因为这里需要改为你自己的cnd翻译文件, 修改 `application/src/utils/i18n-utils/index.ts` 文件即可. 你可以写一个工具来自动生成翻译文件, 自动上传CDN. 也可以接入运营平台,让各个国家的运维去编辑语言,导出语言json文件到cdn.
+> 📣 如果需要优先加载网络语言资源，则修改 `application/src/utils/i18n-utils/index.ts` 文件， 开启import HttpBackend from 'i18next-http-backend'和插件使用部分的注释, 然后修改cnd地址为你的翻译地址. 你可以写一个工具来自动生成翻译文件, 自动上传CDN. 也可以接入运营平台,让各个国家的运维去编辑语言,导出语言json文件到cdn.
 
 关于语言顺序:
 

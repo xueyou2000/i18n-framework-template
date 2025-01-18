@@ -11,7 +11,6 @@
     "**/*.scss"
   ],
   "scripts": {
-    "tt": "tsx ./build/test.ts",
     "test": "jest",
     "lint": "npm run lint:eslint && npm run lint:stylelint",
     "lint:eslint": "eslint .",
@@ -24,7 +23,8 @@
     "build:ssr:github": "env-cmd -e github -r ./envs.js tsx ./build/ssr/ssr-render.ts",
     "inspect": "env-cmd -e prod -r ./envs.js rsbuild inspect -c ./build/rsbuild.prod.config.ts --environment web",
     "analyze": "env-cmd -e prod -r ./envs.js cross-env RSDOCTOR=1 rsbuild build -c ./build/rsbuild.prod.config.ts  --environment web",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "trans:gen": "tsx ./build/scripts.ts --cmd=gen-trans"
   },
   "files": [
     "dist",
@@ -81,7 +81,8 @@
     "stylelint": "^16.12.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "xxhash-wasm": "^1.1.0"
   },
   "dependencies": {
     "@packages/components": "workspace:^",

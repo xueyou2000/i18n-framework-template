@@ -1,6 +1,6 @@
 import i18next, { InitOptions, Resource } from 'i18next'
 import ChainedBackend from 'i18next-chained-backend'
-import HttpBackend from 'i18next-http-backend'
+// import HttpBackend from 'i18next-http-backend'
 import ICU from 'i18next-icu'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { initReactI18next } from 'react-i18next'
@@ -24,13 +24,15 @@ export function initI18nClient(locale: string, lang: string, resources: Resource
     .use(initReactI18next)
     .init(
       {
+        // 遵循 IETF BCP 47 标准
         lng: lang,
+        resources,
         fallbackLng: FALLBACK_LANG, // 使用当前站点默认语言包作为 fallback 取值
         load: 'currentOnly', // 禁止加载根语言包，en-US 不会额外加载 en.json
         // debug      : true, // 调试模式
         backend: {
           backends: [
-            HttpBackend, // primary: 调用接口获取最新翻译
+            // HttpBackend, // primary: 调用接口获取最新翻译
             resourcesToBackend(resources) // fallback: 读取本地翻译文件
           ],
           backendOptions: [
@@ -54,6 +56,8 @@ export function initI18nClient(locale: string, lang: string, resources: Resource
    */
   i18next.on('initialized', function (options: InitOptions) {
     changeHtmlAttr(options.lng || 'en-US')
+
+    console.log('>>> i18next.on initialized', i18next.t('hello'))
   })
 
   /**
@@ -74,6 +78,8 @@ export function initI18nClient(locale: string, lang: string, resources: Resource
       htmlElement.setAttribute('dir', i18next.dir(lang))
     }
   }
+
+  return i18next
 }
 
 /**

@@ -2,11 +2,12 @@ import { getArgv } from '@framework/build'
 import { consola } from 'consola'
 import fastGlob from 'fast-glob'
 import { existsSync } from 'node:fs'
-import { readFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { basename, dirname, join, normalize } from 'node:path'
+import xxhash, { XXHashAPI } from 'xxhash-wasm'
 
 import { RsbuildEntryDescription } from '@rsbuild/core'
-import { DEFAULT_HTML, DEFAULT_MANIFEST, ENTRIES_FILE_NAME, LOCAL_DIR } from './constants'
+import { DEFAULT_HTML, DEFAULT_MANIFEST, ENTRIES_FILE_NAME, LOCAL_DIR, TRANS_FILE_REG, TRANS_KEY_REG } from './constants'
 
 export interface LocalInfo {
   /** local */
@@ -17,6 +18,15 @@ export interface LocalInfo {
   htmlTemplate: string
   /** local manifest */
   manifest: string
+}
+
+let hasher: XXHashAPI
+export async function initHash() {
+  if (hasher) {
+    return hasher
+  } else {
+    return await xxhash()
+  }
 }
 
 /**
@@ -46,9 +56,11 @@ export function parseLocals(localStr?: string) {
  * @description 根据locals目录, 获取 ['in', 'zh-cn'] 的locals数组
  */
 export function getAllLocals(): string[] {
-  const pattern = join(LOCAL_DIR, `/*/${ENTRIES_FILE_NAME}`)
-  const excludePattern = '!' + join(LOCAL_DIR, `/${ENTRIES_FILE_NAME}`)
-  return fastGlob.sync([pattern, excludePattern]).map((path) => basename(dirname(path)))
+  const pattern = fastGlob.convertPathToPattern(join(LOCAL_DIR, '**', `${ENTRIES_FILE_NAME}`))
+  const excludePattern = fastGlob.convertPathToPattern(`!${join(LOCAL_DIR, `${ENTRIES_FILE_NAME}`)}`)
+  return fastGlob.sync([pattern, excludePattern]).map((path) => {
+    return basename(dirname(path))
+  })
 }
 
 /**
@@ -80,7 +92,7 @@ export function getLocalsInfoMap() {
     locals = getAllLocals()
   }
 
-  consola.info(`编译local: ${locals.join(', ')}`)
+  consola.info(`获取入口文件local: ${locals.join(', ')}`)
 
   locals.forEach((local) => {
     local = local.toLowerCase()
@@ -109,6 +121,28 @@ export function getEntries(localInfoMap: Map<string, LocalInfo>) {
     }
   }
   return result
+}
+
+/**
+ * 创建基础翻译文件
+ */
+export async function genTransJson() {
+  const files = fastGlob.sync(TRANS_FILE_REG)
+  const trans: Record<string, string> = {}
+
+  const { h32ToString } = await initHash()
+
+  for (let i = 0; i < files.length; i++) {
+    const content = await readFile(files[i], 'utf-8')
+    const matchList = content.matchAll(TRANS_KEY_REG)
+    for (const match of matchList) {
+      const [key] = match
+      trans[h32ToString(key)] = key
+    }
+  }
+
+  await writeFile(join(LOCAL_DIR, 'trans.json'), JSON.stringify(trans, null, 2))
+  return trans
 }
 
 /**

@@ -4,7 +4,7 @@
 export interface NationConfig {
   /** 站点名称 */
   locale: string
-  /** 国家-语言代码 */
+  /** 国家-语言代码 遵循 IETF BCP 47 标准 */
   lang: string
   /** 国家名称 */
   countryName: string
