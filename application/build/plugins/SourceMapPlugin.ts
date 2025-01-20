@@ -2,7 +2,7 @@ import type { RsbuildPlugin } from '@rsbuild/core'
 import { consola } from 'consola'
 import { access, constants, mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, join, normalize, relative, resolve } from 'node:path'
-import { glob, convertPathToPattern } from 'fast-glob'
+import { glob } from 'fast-glob'
 
 import { ManifestJson } from '../ssr/types'
 import { readFileJson } from '../utils'
@@ -51,7 +51,8 @@ export const pluginSourceMap = (options: SourceMapOptions = {}): RsbuildPlugin =
       const assetPrefix = config.output.assetPrefix || '/'
 
       // 移除所有目录中的 service-worker map
-      const workerMaps = await glob(convertPathToPattern(join(distPath, '**/service-worker.js.map')))
+      const pattern = join(distPath, '**/service-worker.js.map').replace(/\\/g, '/')
+      const workerMaps = await glob(pattern)
       for (const workerMap of workerMaps) {
         try {
           await access(workerMap, constants.F_OK)

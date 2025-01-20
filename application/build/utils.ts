@@ -56,8 +56,9 @@ export function parseLocals(localStr?: string) {
  * @description 根据locals目录, 获取 ['in', 'zh-cn'] 的locals数组
  */
 export function getAllLocals(): string[] {
-  const pattern = fastGlob.convertPathToPattern(join(LOCAL_DIR, '**', `${ENTRIES_FILE_NAME}`))
-  const excludePattern = fastGlob.convertPathToPattern(`!${join(LOCAL_DIR, `${ENTRIES_FILE_NAME}`)}`)
+  const pattern = join(LOCAL_DIR, '**', `${ENTRIES_FILE_NAME}`).replace(/\\/g, '/')
+  const excludePattern = `!${join(LOCAL_DIR, `${ENTRIES_FILE_NAME}`)}`.replace(/\\/g, '/')
+
   return fastGlob.sync([pattern, excludePattern]).map((path) => {
     return basename(dirname(path))
   })
